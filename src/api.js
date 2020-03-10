@@ -21,3 +21,7 @@ export async function searchFood(food) {
     ).foods || []
   )
 }
+
+export async function getFoodDetails(id) {
+  return (await fetch(`${baseUrl}/${id}${keyParam}`)).json()
+}
