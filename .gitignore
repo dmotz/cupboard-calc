@@ -2,3 +2,4 @@
 /public/build/
 /.firebase/
 .DS_Store
+src/api-key.js
