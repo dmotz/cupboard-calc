@@ -254,8 +254,7 @@
           bind:this={foodNameInput}
           bind:value={pendingName}
           on:keydown={checkEnter}
-          on:input={onFoodInput}
-          on:blur={() => console.log('blur')} />
+          on:input={onFoodInput} />
         {#if suggestions.length}
           <ul class="suggestions">
             {#each suggestions as suggestion}
