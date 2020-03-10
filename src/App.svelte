@@ -1,16 +1,22 @@
 <script>
-  const metrics = ['grams', 'protein', 'calories']
+  import {searchFood, getFoodDetails} from './api'
+
+  const metrics = ['grams', 'energy', 'protein']
   const rdi = {
-    calories: 2000,
-    protein: 100
+    energy: 2000,
+    protein: 50
   }
+  const searchThrottleMs = 500
 
   let daysNeeded = 14
   let numPeople = 2
   let pendingName = ''
   let pendingQuantity = ''
   let rows = []
+  let suggestions = []
+  let pendingFoodData
   let foodNameInput
+  let searchTimeout
 
   $: totals = rows.reduce(
     (a, c) => {
@@ -33,11 +39,12 @@
     }ch + 2px)`
   }
 
-  function addRow() {
+  async function addRow() {
     const name = pendingName.trim()
     const quant = parseFloat(pendingQuantity)
+    const data = await pendingFoodData
 
-    if (!name || isNaN(quant)) {
+    if (!name || isNaN(quant) || !data) {
       return
     }
 
@@ -46,19 +53,55 @@
       {
         name,
         grams: quant,
-        protein: Math.round(Math.random() * 40),
-        calories: Math.round(Math.random() * 400)
+        ...metrics.reduce((a, c) => {
+          if (c !== 'grams') {
+            a[c] = findNutrientData(c, quant, data)
+          }
+          return a
+        }, {})
       }
     ]
+
     pendingName = ''
     pendingQuantity = ''
+    pendingFoodData = null
     foodNameInput.focus()
+  }
+
+  function findNutrientData(query, grams, data) {
+    const rx = new RegExp(query, 'i')
+    return (
+      data.foodNutrients.find(record => rx.test(record.nutrient.name)).amount *
+      (grams / 100)
+    )
   }
 
   function checkEnter(e) {
     if (e.key === 'Enter') {
       addRow()
     }
+  }
+
+  function onFoodInput() {
+    clearTimeout(searchTimeout)
+    searchTimeout = setTimeout(async () => {
+      suggestions = (await searchFood(pendingName)).reduce(
+        ([names, a], c) => {
+          const name = c.description.toLowerCase()
+
+          return !names.includes(name)
+            ? [[...names, name], [...a, c]]
+            : [names, a]
+        },
+        [[], []]
+      )[1]
+    }, searchThrottleMs)
+  }
+
+  function setFood(food) {
+    pendingName = food.description.toLowerCase()
+    pendingFoodData = getFoodDetails(food.fdcId)
+    suggestions = []
   }
 </script>
 
