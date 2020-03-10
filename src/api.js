@@ -1,5 +1,9 @@
 import apiKey from './api-key'
 
+const baseUrl = 'https://api.nal.usda.gov/fdc/v1/'
+
+const keyParam = '?api_key=' + apiKey
+
 export async function searchFood(food) {
   if (!food.trim()) {
     return []
@@ -9,7 +13,7 @@ export async function searchFood(food) {
     (
       await (
         await fetch(
-          `https://api.nal.usda.gov/fdc/v1/search?api_key=${apiKey}&generalSearchInput=${encodeURIComponent(
+          `${baseUrl}search${keyParam}&generalSearchInput=${encodeURIComponent(
             food
           )}`
         )
