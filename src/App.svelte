@@ -300,7 +300,7 @@
             <td class="percentage">
               <div class="fill">
                 <div
-                  style={`width:${(perDiemTotals[metric] / rdi[metric]) * 100}%`} />
+                  style={`width:${Math.min((perDiemTotals[metric] / rdi[metric]) * 100, 100)}%`} />
               </div>
               {Math.round((perDiemTotals[metric] / rdi[metric]) * 100)}%
             </td>
