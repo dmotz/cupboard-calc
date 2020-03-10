@@ -295,7 +295,7 @@
 
       <tr class="totals">
         <td>% of RDI:</td>
-        <td />
+
         {#each metrics as metric}
           {#if rdi[metric]}
             <td class="percentage">
@@ -305,6 +305,8 @@
               </div>
               {Math.round((perDiemTotals[metric] / rdi[metric]) * 100)}%
             </td>
+          {:else}
+            <td />
           {/if}
         {/each}
       </tr>
