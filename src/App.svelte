@@ -208,9 +208,9 @@
   <table>
     <thead>
       <tr>
-        <td>Food</td>
+        <td>food</td>
         {#each metrics as metric}
-          <td>{metric}</td>
+          <td>{metric === 'energy' ? 'calories' : metric}</td>
         {/each}
       </tr>
     </thead>
@@ -228,7 +228,18 @@
           placeholder="food name"
           bind:this={foodNameInput}
           bind:value={pendingName}
-          on:keydown={checkEnter} />
+          on:keydown={checkEnter}
+          on:input={onFoodInput}
+          on:blur={() => console.log('blur')} />
+        {#if suggestions.length}
+          <ul class="suggestions">
+            {#each suggestions as suggestion}
+              <li on:click={setFood.bind(null, suggestion)}>
+                {suggestion.description.toLowerCase()}
+              </li>
+            {/each}
+          </ul>
+        {/if}
       </td>
       <td>
         <input
