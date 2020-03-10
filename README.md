@@ -1,4 +1,13 @@
 # FoodCalc
 
-Dev: `npm run dev`
-Build: `npm run build`
+Dev:
+
+```
+npm run dev
+```
+
+Build:
+
+```
+npm run build
+```
