@@ -187,6 +187,31 @@
     background-color: #eee;
     height: 100%;
   }
+
+  .suggestions {
+    position: absolute;
+    background-color: #fff;
+    list-style: none;
+    padding: 0;
+    width: 20rem;
+    max-height: 20rem;
+    overflow: auto;
+    border: 1px solid #ccc;
+    margin-top: 0.4rem;
+    z-index: 99;
+  }
+
+  .suggestions li {
+    padding: 1rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .suggestions li:hover {
+    background-color: #ccc;
+    color: #fff;
+  }
 </style>
 
 <main>
