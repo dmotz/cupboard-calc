@@ -39,6 +39,10 @@
     }ch + 2px)`
   }
 
+  function formatNum(n) {
+    return n.toLocaleString().replace(/\.0+$/, '')
+  }
+
   async function addRow() {
     const name = pendingName.trim()
     const quant = parseFloat(pendingQuantity)
@@ -243,7 +247,7 @@
       <tr>
         <td>{row.name}</td>
         {#each metrics as metric}
-          <td>{row[metric]}</td>
+          <td>{formatNum(row[metric])}</td>
         {/each}
       </tr>
     {/each}
@@ -281,14 +285,14 @@
       <tr class="totals">
         <td>total:</td>
         {#each metrics as metric}
-          <td>{totals[metric].toLocaleString()}</td>
+          <td>{formatNum(totals[metric])}</td>
         {/each}
       </tr>
 
       <tr class="totals">
         <td>per person per day:</td>
         {#each metrics as metric}
-          <td>{perDiemTotals[metric].toLocaleString()}</td>
+          <td>{formatNum(perDiemTotals[metric])}</td>
         {/each}
       </tr>
 
