@@ -1,4 +1,4 @@
-# FoodCalc
+# Pantry Planner
 
 Dev:
 
