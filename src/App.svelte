@@ -19,6 +19,7 @@
   let didMount = false
   let pendingFoodData
   let foodNameInput
+  let quantityInput
   let searchTimeout
 
   $: totals = rows.reduce(
@@ -130,6 +131,7 @@
     pendingName = food.description.toLowerCase()
     pendingFoodData = getFoodDetails(food.fdcId)
     suggestions = []
+    quantityInput.focus()
   }
 
   function removeRow(n) {
@@ -369,6 +371,7 @@
           type="number"
           placeholder="amount in grams"
           bind:value={pendingQuantity}
+          bind:this={quantityInput}
           on:keydown={checkEnter} />
       </td>
 
