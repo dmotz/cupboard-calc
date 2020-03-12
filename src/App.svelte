@@ -393,7 +393,7 @@
       </tr>
 
       <tr class="totals">
-        <td>% of RDI:</td>
+        <td>daily %:</td>
 
         {#each metrics as metric}
           {#if rdi[metric]}
