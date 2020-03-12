@@ -247,7 +247,9 @@
 </style>
 
 <main>
+  <h2>🍎🥑🥔🥕🥫🥜🍌</h2>
   <h1>Nutrition Planner</h1>
+
   <p id="prompt">
     Calculate food needed for
     <input
