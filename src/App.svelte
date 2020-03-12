@@ -1,6 +1,8 @@
 <script>
+  import {onMount} from 'svelte'
   import {searchFood, getFoodDetails} from './api'
 
+  const lsKey = 'ls'
   const metrics = ['grams', 'energy', 'protein']
   const rdi = {
     energy: 2000,
@@ -14,6 +16,7 @@
   let pendingQuantity = ''
   let rows = []
   let suggestions = []
+  let didMount = false
   let pendingFoodData
   let foodNameInput
   let searchTimeout
@@ -38,6 +41,11 @@
     : isNaN(parseFloat(pendingQuantity))
     ? '👈 now enter the amount in grams'
     : 'press the enter key to add'
+
+  $: _ =
+    rows &&
+    didMount &&
+    localStorage.setItem(lsKey, JSON.stringify({rows, numPeople, daysNeeded}))
 
   function getInputWidth(val) {
     return `width:calc(${
@@ -127,6 +135,26 @@
   function removeRow(n) {
     rows = rows.filter((_, i) => i !== n)
   }
+
+  onMount(() => {
+    if (didMount) {
+      return
+    }
+
+    didMount = true
+
+    try {
+      const res = JSON.parse(localStorage.getItem(lsKey))
+
+      if (res.rows && res.numPeople && res.daysNeeded) {
+        rows = res.rows
+        numPeople = res.numPeople
+        daysNeeded = res.daysNeeded
+      }
+    } catch (e) {
+      console.log('error restoring data')
+    }
+  })
 </script>
 
 <style>
