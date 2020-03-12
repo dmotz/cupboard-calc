@@ -33,7 +33,7 @@
     Object.entries(totals).map(([k, v]) => [k, v / daysNeeded / numPeople])
   )
 
-  $: helpText = !pendingName.trim()
+  $: helpText = !pendingFoodData
     ? '👈 enter a food in the first field'
     : isNaN(parseFloat(pendingQuantity))
     ? '👈 now enter the amount in grams'
@@ -93,6 +93,7 @@
   }
 
   function onFoodInput() {
+    pendingFoodData = null
     clearTimeout(searchTimeout)
     searchTimeout = setTimeout(async () => {
       suggestions = (await searchFood(pendingName)).reduce(
@@ -106,6 +107,15 @@
         [[], []]
       )[1]
     }, searchThrottleMs)
+  }
+
+  async function onFoodInputBlur() {
+    await new Promise(res => setTimeout(res, 200))
+    suggestions = []
+
+    if (!pendingFoodData) {
+      pendingName = ''
+    }
   }
 
   function setFood(food) {
@@ -276,7 +286,8 @@
           bind:this={foodNameInput}
           bind:value={pendingName}
           on:keydown={checkEnter}
-          on:input={onFoodInput} />
+          on:input={onFoodInput}
+          on:blur={onFoodInputBlur} />
         {#if suggestions.length}
           <ul class="suggestions">
             {#each suggestions as suggestion}
