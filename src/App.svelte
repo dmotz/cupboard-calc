@@ -33,6 +33,12 @@
     Object.entries(totals).map(([k, v]) => [k, v / daysNeeded / numPeople])
   )
 
+  $: helpText = !pendingName.trim()
+    ? '👈 enter a food in the first field'
+    : isNaN(parseFloat(pendingQuantity))
+    ? '👈 now enter the amount in grams'
+    : 'press the enter key to add'
+
   function getInputWidth(val) {
     return `width:calc(${
       val === undefined ? 1 : val.toString().length
@@ -107,15 +113,21 @@
     pendingFoodData = getFoodDetails(food.fdcId)
     suggestions = []
   }
+
+  function removeRow(i) {
+    console.log('delete ', i)
+  }
 </script>
 
 <style>
   :root {
     --blue: rgb(0, 50, 252);
   }
+
   h1 {
     font-size: 3rem;
   }
+
   #prompt {
     font-size: 2rem;
     margin-bottom: 3rem;
@@ -153,10 +165,16 @@
     border-bottom: 1px solid #ccc;
     padding: 0.8rem 0;
     padding-right: 2rem;
+    position: relative;
   }
 
   td em {
     color: #ccc;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    width: 100%;
   }
 
   #input-row td {
@@ -277,7 +295,7 @@
           on:keydown={checkEnter} />
       </td>
       <td colspan="2">
-        <em>press enter to add</em>
+        <em>{helpText}</em>
       </td>
     </tr>
 
