@@ -124,8 +124,8 @@
     suggestions = []
   }
 
-  function removeRow(i) {
-    console.log('delete ', i)
+  function removeRow(n) {
+    rows = rows.filter((_, i) => i !== n)
   }
 </script>
 
@@ -268,19 +268,26 @@
     <thead>
       <tr>
         <td>food</td>
+
         {#each metrics as metric}
           <td>{metric === 'energy' ? 'calories' : metric}</td>
         {/each}
       </tr>
     </thead>
-    {#each rows as row}
+
+    {#each rows as row, i}
       <tr>
-        <td>{row.name}</td>
+        <td>
+          <span class="delete" on:click={removeRow.bind(null, i)}>❌</span>
+          {row.name}
+        </td>
+
         {#each metrics as metric}
           <td>{formatNum(row[metric])}</td>
         {/each}
       </tr>
     {/each}
+
     <tr id="input-row">
       <td>
         <input
@@ -290,6 +297,7 @@
           on:keydown={checkEnter}
           on:input={onFoodInput}
           on:blur={onFoodInputBlur} />
+
         {#if suggestions.length}
           <ul class="suggestions">
             {#each suggestions as suggestion}
@@ -300,6 +308,7 @@
           </ul>
         {/if}
       </td>
+
       <td>
         <input
           type="number"
@@ -307,6 +316,7 @@
           bind:value={pendingQuantity}
           on:keydown={checkEnter} />
       </td>
+
       <td colspan="2">
         <em>{helpText}</em>
       </td>
