@@ -8,8 +8,8 @@
   }
   const searchThrottleMs = 500
 
-  let daysNeeded = 14
-  let numPeople = 2
+  let daysNeeded = 7
+  let numPeople = 1
   let pendingName = ''
   let pendingQuantity = ''
   let rows = []
