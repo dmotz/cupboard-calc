@@ -210,6 +210,15 @@
     padding-top: 1.6rem;
   }
 
+  .check {
+    color: rgb(10, 196, 25);
+    visibility: hidden;
+  }
+
+  .check.active {
+    visibility: visible;
+  }
+
   .totals td {
     padding-top: 1rem;
     border-bottom: none;
@@ -314,6 +323,7 @@
           on:keydown={checkEnter}
           on:input={onFoodInput}
           on:blur={onFoodInputBlur} />
+        <span class="check" class:active={pendingFoodData}>✓</span>
 
         {#if suggestions.length}
           <ul class="suggestions">
