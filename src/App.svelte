@@ -145,6 +145,7 @@
 
   #prompt input {
     font-size: 2rem;
+    text-align: center;
   }
 
   input {
@@ -178,6 +179,10 @@
     position: relative;
   }
 
+  td:first-child {
+    padding-left: 2rem;
+  }
+
   td em {
     color: #ccc;
     position: absolute;
@@ -185,6 +190,18 @@
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
     width: 100%;
+  }
+
+  .delete {
+    font-size: 1rem;
+    visibility: hidden;
+    cursor: pointer;
+    position: absolute;
+    left: 0;
+  }
+
+  tr:hover .delete {
+    visibility: visible;
   }
 
   #input-row td {
