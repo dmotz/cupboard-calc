@@ -168,28 +168,38 @@
     font-size: 3rem;
   }
 
-  #prompt {
-    font-size: 2rem;
-    margin-bottom: 3rem;
+  #intro {
+    font-size: 1.7rem;
   }
 
-  #prompt input {
-    font-size: 2rem;
+  #settings {
+    display: flex;
+    align-items: center;
+    font-size: 1.6rem;
+    margin-bottom: 3rem;
+    color: #888;
+  }
+
+  #settings div {
+    margin-right: 1.5rem;
     text-align: center;
   }
 
-  input {
-    font-size: 1.4rem;
-    border: none;
-    border-bottom: 3px solid var(--blue);
-    position: relative;
-    overflow: visible;
+  #settings input {
+    display: block;
+    width: 12rem;
   }
 
-  #prompt input::-webkit-outer-spin-button,
-  #prompt input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  #settings label {
+    color: #000;
+    margin-top: 1rem;
+    display: block;
+  }
+
+  #settings span {
+    color: var(--blue);
+    font-weight: bold;
+    margin-left: 0.4rem;
   }
 
   table {
@@ -211,6 +221,14 @@
 
   td:first-child {
     padding-left: 2rem;
+  }
+
+  td input {
+    font-size: 1.4rem;
+    border: none;
+    border-bottom: 3px solid var(--blue);
+    position: relative;
+    overflow: visible;
   }
 
   td em {
@@ -284,7 +302,7 @@
     width: 20rem;
     max-height: 20rem;
     overflow: auto;
-    border: 1px solid #ccc;
+    border: 1px solid #aaa;
     margin-top: 0.4rem;
     z-index: 99;
   }
