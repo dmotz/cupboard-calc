@@ -431,7 +431,7 @@
                 <div
                   style={`width:${Math.min((perDiemTotals[metric] / rdi[metric]) * 100, 100)}%`} />
               </div>
-              {Math.round((perDiemTotals[metric] / rdi[metric]) * 100)}%
+              {formatNum((perDiemTotals[metric] / rdi[metric]) * 100)}%
             </td>
           {:else}
             <td />
