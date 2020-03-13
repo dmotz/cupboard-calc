@@ -293,32 +293,40 @@
     padding: 1rem;
     font-size: 1.2rem;
     cursor: pointer;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #aaa;
   }
 
   .suggestions li:hover {
-    background-color: #ccc;
+    background-color: #aaa;
     color: #fff;
   }
 </style>
 
 <main>
   <h2>🍎🥑🥔🥕🥫🥜🍌</h2>
-  <h1>Pantry Planner</h1>
+  <h1>Cupboard Calculator</h1>
 
-  <p id="prompt">
-    Calculate food needed for
-    <input
-      type="number"
-      bind:value={daysNeeded}
-      style={getInputWidth(daysNeeded)} />
-    day{daysNeeded === 1 ? '' : 's'} for
-    <input
-      type="number"
-      bind:value={numPeople}
-      style={getInputWidth(numPeople)} />
-    adult{numPeople === 1 ? '' : 's'}:
-  </p>
+  <p id="intro">Make a plan for:</p>
+
+  <div id="settings">
+    <div>
+      <input type="range" min="1" max="9" bind:value={numPeople} />
+      <label>
+        🙂
+        <span>{numPeople}</span>
+        {numPeople === 1 ? 'person' : 'people'}
+      </label>
+    </div>
+    <div>for</div>
+    <div>
+      <input type="range" min="1" max="60" bind:value={daysNeeded} />
+      <label>
+        📅
+        <span>{daysNeeded}</span>
+        day{daysNeeded === 1 ? '' : 's'}
+      </label>
+    </div>
+  </div>
 
   <table>
     <thead>
