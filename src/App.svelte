@@ -38,7 +38,7 @@
   )
 
   $: helpText = !pendingFoodData
-    ? '👈 enter a food in the first field'
+    ? '👈 type a food in the first field'
     : isNaN(parseFloat(pendingQuantity))
     ? '👈 now enter the amount in grams'
     : 'press the enter key to add'
