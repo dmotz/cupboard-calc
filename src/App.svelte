@@ -55,7 +55,7 @@
   }
 
   function formatNum(n) {
-    return n.toLocaleString().replace(/\.0+$/, '')
+    return Math.round(n).toLocaleString()
   }
 
   async function addRow() {
