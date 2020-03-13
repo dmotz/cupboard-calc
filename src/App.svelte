@@ -148,6 +148,7 @@
   async function onFoodInputBlur() {
     await new Promise(res => setTimeout(res, 200))
     suggestions = []
+    activeSuggestion = 0
 
     if (!pendingFoodData) {
       pendingName = ''
