@@ -32,3 +32,40 @@ button {
 button:focus {
   outline: none;
 }
+
+input[type='range'] {
+  width: 100%;
+  -webkit-appearance: none;
+}
+
+input[type='range']:focus {
+  outline: none;
+  border: 0;
+}
+
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 100%;
+  border: 1px solid #999;
+  background: #fff;
+  cursor: ew-resize;
+  cursor: -webkit-grab;
+  margin-top: -8px;
+}
+
+input[type='range']::-webkit-slider-thumb:active {
+  cursor: -webkit-grabbing;
+}
+
+input[type='range']::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 1px;
+  cursor: -webkit-grab;
+  background: #999;
+}
+
+input[type='range']::-webkit-slider-runnable-track:active {
+  cursor: -webkit-grabbing;
+}
