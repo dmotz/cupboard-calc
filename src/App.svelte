@@ -1,5 +1,5 @@
 <script>
-  import {onMount} from 'svelte'
+  import {onMount, tick} from 'svelte'
   import {searchFood, getFoodDetails} from './api'
 
   const lsKey = 'ls'
@@ -16,10 +16,13 @@
   let pendingQuantity = ''
   let rows = []
   let suggestions = []
+  let activeSuggestion = 0
   let didMount = false
   let pendingFoodData
   let foodNameInput
   let quantityInput
+  let suggestionsEl
+  let activeSuggestionEl
   let searchTimeout
 
   $: totals = rows.reduce(
@@ -98,6 +101,30 @@
   function checkEnter(e) {
     if (e.key === 'Enter') {
       addRow()
+    }
+  }
+
+  async function onFoodInputKey(e) {
+    if (e.key === 'Enter') {
+      setFood(suggestions[activeSuggestion])
+      return
+    }
+
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault()
+      activeSuggestion += e.key === 'ArrowDown' ? 1 : -1
+
+      if (activeSuggestion < 0) {
+        activeSuggestion = suggestions.length - 1
+      }
+
+      if (activeSuggestion >= suggestions.length) {
+        activeSuggestion = 0
+      }
+
+      pendingName = suggestions[activeSuggestion].description.toLowerCase()
+      await tick()
+      activeSuggestionEl.scrollIntoView()
     }
   }
 
@@ -314,7 +341,8 @@
     border-bottom: 1px solid #aaa;
   }
 
-  .suggestions li:hover {
+  .suggestions li:hover,
+  .suggestions .active {
     background-color: #aaa;
     color: #fff;
   }
@@ -374,19 +402,29 @@
       <td>
         <input
           placeholder="food name"
+          spellcheck="false"
           bind:this={foodNameInput}
           bind:value={pendingName}
-          on:keydown={checkEnter}
+          on:keydown={onFoodInputKey}
           on:input={onFoodInput}
           on:blur={onFoodInputBlur} />
         <span class="check" class:active={pendingFoodData}>✓</span>
 
         {#if suggestions.length}
-          <ul class="suggestions">
-            {#each suggestions as suggestion}
-              <li on:click={setFood.bind(null, suggestion)}>
-                {suggestion.description.toLowerCase()}
-              </li>
+          <ul class="suggestions" bind:this={suggestionsEl}>
+            {#each suggestions as suggestion, i}
+              {#if i === activeSuggestion}
+                <li
+                  on:click={setFood.bind(null, suggestion)}
+                  bind:this={activeSuggestionEl}
+                  class="active">
+                  {suggestion.description.toLowerCase()}
+                </li>
+              {:else}
+                <li on:click={setFood.bind(null, suggestion)}>
+                  {suggestion.description.toLowerCase()}
+                </li>
+              {/if}
             {/each}
           </ul>
         {/if}
