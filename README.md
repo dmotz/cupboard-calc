@@ -1,4 +1,4 @@
-# Pantry Planner
+# Cupboard Calculator
 
 Dev:
 
