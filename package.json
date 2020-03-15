@@ -4,9 +4,9 @@
   "devDependencies": {
     "@rollup/plugin-commonjs": "^11.0.0",
     "@rollup/plugin-node-resolve": "^7.1.1",
-    "cross-env": "^6.0.3",
+    "cross-env": "^7.0.2",
     "nollup": "^0.10.6",
-    "rollup": "^1.31.1",
+    "rollup": "^2.0.6",
     "rollup-plugin-hot": "^0.0.14",
     "rollup-plugin-livereload": "^1.0.0",
     "rollup-plugin-svelte-hot": "^0.4.0",
@@ -22,5 +22,8 @@
     "dev": "npm run dev:rollup",
     "start": "sirv public",
     "deploy": "npm run build && firebase deploy"
+  },
+  "dependencies": {
+    "quagga": "^0.12.1"
   }
 }

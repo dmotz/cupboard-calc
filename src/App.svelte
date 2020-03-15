@@ -1,7 +1,7 @@
 <script>
   import {onMount, tick} from 'svelte'
   import {searchFood, getFoodDetails} from './api'
-
+  import Quagga from 'quagga'
   const lsKey = 'ls'
   const metrics = ['grams', 'energy', 'protein']
   const rdi = {
@@ -10,10 +10,10 @@
   }
   const searchThrottleMs = 500
 
-  let daysNeeded = 7
   let numPeople = 1
   let pendingName = ''
   let pendingQuantity = ''
+  let pendingMultiplier = 1
   let rows = []
   let suggestions = []
   let activeSuggestion = 0
@@ -21,9 +21,12 @@
   let pendingFoodData
   let foodNameInput
   let quantityInput
+  let multiplierInput
   let suggestionsEl
   let activeSuggestionEl
   let searchTimeout
+  let scanning = false
+  let barcodeMessage = ""
 
   $: totals = rows.reduce(
     (a, c) => {
@@ -37,7 +40,7 @@
   )
 
   $: perDiemTotals = Object.fromEntries(
-    Object.entries(totals).map(([k, v]) => [k, v / daysNeeded / numPeople])
+    Object.entries(totals).map(([k, v]) => [k, v / numPeople])
   )
 
   $: helpText = !pendingFoodData
@@ -49,7 +52,7 @@
   $: _ =
     rows &&
     didMount &&
-    localStorage.setItem(lsKey, JSON.stringify({rows, numPeople, daysNeeded}))
+    localStorage.setItem(lsKey, JSON.stringify({rows, numPeople}))
 
   function getInputWidth(val) {
     return `width:calc(${
@@ -57,13 +60,28 @@
     }ch + 2px)`
   }
 
-  function formatNum(n) {
-    return Math.round(n).toLocaleString()
+  function formatNum(n, d=0) {
+    return (Math.round(n * Math.pow(10,d))/Math.pow(10,d)).toLocaleString()
+  }
+
+  let a=new AudioContext() // browsers limit the number of concurrent audio contexts, so you better re-use'em
+
+  function beep(vol, freq, duration){
+    let v=a.createOscillator()
+    let u=a.createGain()
+    v.connect(u)
+    v.frequency.value=freq
+    v.type="square"
+    u.connect(a.destination)
+    u.gain.value=vol*0.01
+    v.start(a.currentTime)
+    v.stop(a.currentTime+duration*0.001)
   }
 
   async function addRow() {
     const name = pendingName.trim()
     const quant = parseFloat(pendingQuantity)
+    const mult = parseFloat(pendingMultiplier)
     const data = await pendingFoodData
 
     if (!name || isNaN(quant) || !data) {
@@ -74,10 +92,10 @@
       ...rows,
       {
         name,
-        grams: quant,
+        grams: quant * mult,
         ...metrics.reduce((a, c) => {
           if (c !== 'grams') {
-            a[c] = findNutrientData(c, quant, data)
+            a[c] = findNutrientData(c, quant * mult, data)
           }
           return a
         }, {})
@@ -86,6 +104,7 @@
 
     pendingName = ''
     pendingQuantity = ''
+    pendingMultiplier = 1
     pendingFoodData = null
     foodNameInput.focus()
   }
@@ -135,7 +154,6 @@
       suggestions = (await searchFood(pendingName)).reduce(
         ([names, a], c) => {
           const name = c.description.toLowerCase()
-
           return !names.includes(name)
             ? [[...names, name], [...a, c]]
             : [names, a]
@@ -158,12 +176,65 @@
   function setFood(food) {
     pendingName = food.description.toLowerCase()
     pendingFoodData = getFoodDetails(food.fdcId)
+    console.log(pendingFoodData)
     suggestions = []
     quantityInput.focus()
   }
 
   function removeRow(n) {
     rows = rows.filter((_, i) => i !== n)
+  }
+
+  async function showAddFoodModal() {
+
+  }
+
+  async function onStartScan(){
+    Quagga.init({
+      inputStream : {
+        name : "Live",
+        type : "LiveStream",
+        target: document.querySelector('#liveview') 
+      },
+      multiple: false,
+      debug: {
+        drawBoundingBox: true
+      },
+      decoder : {
+        readers : ["upc_reader"]
+      }
+    }, function(err) {
+        if (err) {
+            console.log(err);
+            return
+        }
+        console.log("Initialization finished. Ready to start");
+        scanning = true;
+        Quagga.start();
+    });
+
+    Quagga.onDetected(async res=>{
+      if(!scanning) return;
+      scanning = false;
+      barcodeMessage = "Searching..."
+
+      beep(5, 520, 200)
+      console.log(res)
+      // setFood(res.codeResult.code)
+      // Quagga.stop()
+      suggestions = (await searchFood(res.codeResult.code))
+      if(suggestions.length > 0){
+        setFood(suggestions[0])
+        barcodeMessage = "Found item"
+      } else {
+        barcodeMessage = " ❌ Didn't find product"
+      }
+
+      setTimeout(()=> {
+        scanning = true;
+      }, 2000)
+      
+    })
   }
 
   onMount(() => {
@@ -176,14 +247,15 @@
     try {
       const res = JSON.parse(localStorage.getItem(lsKey))
 
-      if (res.rows && res.numPeople && res.daysNeeded) {
+      if (res.rows && res.numPeople ) {
         rows = res.rows
         numPeople = res.numPeople
-        daysNeeded = res.daysNeeded
       }
     } catch (e) {
       console.log('error restoring data')
     }
+
+    onStartScan();
   })
 </script>
 
@@ -196,15 +268,27 @@
     font-size: 3rem;
   }
 
-  #intro {
+  button {
+    border: 1px solid var(--blue);
+    background: transparent;
+    color: var(--blue);
+  }
+
+  button:hover {
+    background-color: var(--blue);
+    color: white;
+  }
+
+  .subtitle {
     font-size: 1.7rem;
+    margin-top: 5rem
   }
 
   #settings {
     display: flex;
     align-items: center;
     font-size: 1.6rem;
-    margin-bottom: 3rem;
+    margin-top: 3rem;
     color: #888;
   }
 
@@ -280,6 +364,10 @@
     visibility: visible;
   }
 
+  #add-button {
+    margin-top: 1rem;
+  }
+
   #input-row td {
     border-color: var(--blue);
     padding-bottom: 2rem;
@@ -347,33 +435,56 @@
     background-color: #aaa;
     color: #fff;
   }
+
+  #add-food-modal {
+    border: 1px solid #ccc;
+    margin-top: 2rem;
+    display:flex;
+  }
+  #add-food-modal > div {
+    padding: 1rem;
+    position: relative;
+  }
+  #add-food-modal-barcode {
+    width: 300px;
+  }
+
+  #liveview {
+    position: relative;
+  }
+  #barcode-result {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: rgba(0,0,0,0.5);
+    top:0;
+    z-index: 100;
+    color: white;  
+  }
+  #barcode-result span {
+    top: 50%;
+    transform: translateY(-50%);
+    position: absolute;
+    text-align: center;
+    width: 100%;
+  }
+
+  /* #liveview {
+    width:30%;
+  } */
+
 </style>
 
 <main>
   <h2>🍎🥑🥔🥕🥫🥜🍌</h2>
   <h1>Cupboard Calculator</h1>
 
-  <p id="intro">Make a plan for:</p>
+  <p class="text">This calculator will help you get a ballpark of how long your cupboard will strech</p>
 
-  <div id="settings">
-    <div>
-      <input type="range" min="1" max="9" bind:value={numPeople} />
-      <label>
-        🙂
-        <span>{numPeople}</span>
-        {numPeople === 1 ? 'person' : 'people'}
-      </label>
-    </div>
-    <div>for</div>
-    <div>
-      <input type="range" min="1" max="60" bind:value={daysNeeded} />
-      <label>
-        📅
-        <span>{daysNeeded}</span>
-        day{daysNeeded === 1 ? '' : 's'}
-      </label>
-    </div>
-  </div>
+  <p class="subtitle">Your Cupboard:</p>
+
+  <p class="text">First up, enter the food you’ve got … for each thing, add up the grams of how much you have. 
+  The calculator will fetch the number of calories and protein in each item from <a href="https://fdc.nal.usda.gov/index.html">usda</a> and sum it up.</p>
 
   <table>
     <thead>
@@ -394,13 +505,14 @@
         </td>
 
         {#each metrics as metric}
-          <td>{formatNum(row[metric])}</td>
+          <td>{formatNum(row[metric])} g</td>
         {/each}
       </tr>
     {/each}
 
-    <tr id="input-row">
+    <!-- <tr id="input-row">
       <td>
+        <button class="scanner" on:click={onScan}>📸</button>
         <input
           placeholder="food name"
           spellcheck="false"
@@ -443,9 +555,9 @@
       <td colspan="2">
         <em>{helpText}</em>
       </td>
-    </tr>
+    </tr> -->
 
-    {#if rows.length}
+    <!-- {#if rows.length}
       <tr class="totals">
         <td>total:</td>
         {#each metrics as metric}
@@ -477,6 +589,120 @@
           {/if}
         {/each}
       </tr>
-    {/if}
+    {/if} -->
   </table>
+  
+  <!-- <button id="add-button" on:click={showAddFoodModal.bind(null)}>+ Add food</button> -->
+
+  <div id="add-food-modal" >
+    <div id="add-food-modal-barcode">
+      <p>Scan barcode</p>
+      <div id="liveview">
+      {#if !scanning}
+      <div id="barcode-result"> 
+        <span>{barcodeMessage}</span>
+      </div>
+      
+      {/if}
+      </div>
+    </div>
+
+    <div id="add-food-model-manual">
+      <p>Enter Manually</p>
+
+
+      <input
+          placeholder="food name"
+          spellcheck="false"
+          bind:this={foodNameInput}
+          bind:value={pendingName}
+          on:keydown={onFoodInputKey}
+          on:input={onFoodInput}
+          on:blur={onFoodInputBlur} />
+        <span class="check" class:active={pendingFoodData}>✓</span>
+
+        {#if suggestions.length}
+          <ul class="suggestions" bind:this={suggestionsEl}>
+            {#each suggestions as suggestion, i}
+              {#if i === activeSuggestion}
+                <li
+                  on:click={setFood.bind(null, suggestion)}
+                  bind:this={activeSuggestionEl}
+                  class="active">
+                  {suggestion.description.toLowerCase()}
+                </li>
+              {:else}
+                <li on:click={setFood.bind(null, suggestion)}>
+                  {suggestion.description.toLowerCase()}
+                </li>
+              {/if}
+            {/each}
+          </ul>
+        {/if}
+
+
+        <input
+          type="number"
+          placeholder="amount in grams"
+          bind:value={pendingQuantity}
+          bind:this={quantityInput}
+          on:keydown={checkEnter} />
+        X
+        <input
+          type="number"
+          placeholder="count"
+          style="width:5rem"
+          bind:value={pendingMultiplier}
+          bind:this={multiplierInput}
+          on:keydown={checkEnter} />
+        <br><br>
+        <button on:click={addRow} >Add</button>
+
+    </div>
+    
+  </div>
+
+
+  <p class="subtitle">Your household:</p>
+  
+  <p class="text">How many people are in your household?</p>
+
+  <div id="settings">
+    <div>
+      <input type="range" min="1" max="9" bind:value={numPeople} />
+      <label>
+        🙂
+        <span>{numPeople}</span>
+        {numPeople === 1 ? 'person' : 'people'}
+      </label>
+    </div>
+    <!-- <div>
+      <input type="range" min="1" max="60" bind:value={daysNeeded} />
+      <label>
+        📅
+        <span>{daysNeeded}</span>
+        day{daysNeeded === 1 ? '' : 's'}
+      </label>
+    </div> -->
+  </div>
+
+
+{#each metrics as metric}
+  
+
+  {#if rdi[metric]}
+  <p class="text">This will cover {formatNum(perDiemTotals[metric] / rdi[metric], 1)} days of {metric === 'energy' ? 'calorie' : metric} intake</p>
+    <!-- <td class="percentage">
+      <div class="fill">
+        <div
+          style={`width:${Math.min((perDiemTotals[metric] / rdi[metric]) * 100, 100)}%`} />
+      </div>
+      {formatNum((perDiemTotals[metric] / rdi[metric]) * 100)}%
+    </td> -->
+  {:else}
+    <!-- <td /> -->
+  {/if} 
+{/each}
+
+  
 </main>

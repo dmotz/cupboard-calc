@@ -69,3 +69,14 @@ input[type='range']::-webkit-slider-runnable-track {
 input[type='range']::-webkit-slider-runnable-track:active {
   cursor: -webkit-grabbing;
 }
+
+canvas {
+  display: none;
+}
+
+video {
+  width:100%;
+  
+  filter: grayscale(100%);
+
+}
