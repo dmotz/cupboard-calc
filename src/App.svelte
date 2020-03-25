@@ -177,7 +177,6 @@
   function setFood(food) {
     pendingName = food.description.toLowerCase()
     pendingFoodData = getFoodDetails(food.fdcId)
-    console.log(pendingFoodData)
     suggestions = []
     quantityInput.focus()
   }
@@ -186,9 +185,7 @@
     rows = rows.filter((_, i) => i !== n)
   }
 
-  async function showAddFoodModal() {}
-
-  async function onStartScan() {
+  function onStartScan() {
     Quagga.init(
       {
         inputStream: {
@@ -219,11 +216,7 @@
       if (!scanning) return
       scanning = false
       barcodeMessage = 'Searching...'
-
       beep(5, 520, 200)
-      console.log(res)
-      // setFood(res.codeResult.code)
-      // Quagga.stop()
       suggestions = await searchFood(res.codeResult.code)
       if (suggestions.length > 0) {
         setFood(suggestions[0])
@@ -478,21 +471,7 @@
 <main>
   <h2>🍎🥑🥔🥕🥫🥜🍌</h2>
   <h1>Cupboard Calculator</h1>
-
-  <p class="text">
-    This calculator will help you get a ballpark of how long your cupboard will
-    strech
-  </p>
-
-  <p class="subtitle">Your Cupboard:</p>
-
-  <p class="text">
-    First up, enter the food you’ve got … for each thing, add up the grams of
-    how much you have. The calculator will fetch the number of calories and
-    protein in each item from
-    <a href="https://fdc.nal.usda.gov/index.html">usda</a>
-    and sum it up.
-  </p>
+  <h3>Get an estimate for how long your food will last</h3>
 
   <table>
     <thead>
