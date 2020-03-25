@@ -14,6 +14,8 @@
   let numPeople = 1
   let pendingName = ''
   let pendingQuantity = ''
+  let targetEnergy = 2000
+  let targetProtein = 50
   let rows = []
   let suggestions = []
   let activeSuggestion = 0
@@ -25,19 +27,24 @@
   let activeSuggestionEl
   let searchTimeout
 
+  $: targetQuantities = {energy: targetEnergy, protein: targetProtein}
+
   $: totals = rows.reduce(
     (a, c) => {
       Object.keys(c).forEach(k => (a[k] += c[k]))
       return a
     },
-    metrics.reduce((a, c) => {
+    metrics.slice(1).reduce((a, c) => {
       a[c] = 0
       return a
     }, {})
   )
 
-  $: perDiemTotals = Object.fromEntries(
-    Object.entries(totals).map(([k, v]) => [k, v / daysNeeded / numPeople])
+  $: expectedDays = Object.fromEntries(
+    Object.entries(totals).map(([k, v]) => [
+      k,
+      v / targetQuantities[k] / numPeople
+    ])
   )
 
   $: helpText = !pendingFoodData
@@ -413,49 +420,46 @@
       <td>
         <input
           type="number"
-          placeholder="amount in grams"
+          placeholder="0"
           bind:value={pendingQuantity}
           bind:this={quantityInput}
           on:keydown={checkEnter} />
+        {#each units as unit}
+          <span
+            class="measurement"
+            class:active={unit === activeUnit}
+            on:click={setActiveUnit.bind(null, unit)}>
+            {unit}
+          </span>
+        {/each}
       </td>
 
       <td colspan="2">
         <em>{helpText}</em>
       </td>
     </tr>
-
-    {#if rows.length}
-      <tr class="totals">
-        <td>total:</td>
-        {#each metrics as metric}
-          <td>{formatNum(totals[metric])}</td>
-        {/each}
-      </tr>
-
-      <tr class="totals">
-        <td>per person per day:</td>
-        {#each metrics as metric}
-          <td>{formatNum(perDiemTotals[metric])}</td>
-        {/each}
-      </tr>
-
-      <tr class="totals">
-        <td>daily %:</td>
-
-        {#each metrics as metric}
-          {#if rdi[metric]}
-            <td class="percentage">
-              <div class="fill">
-                <div
-                  style={`width:${Math.min((perDiemTotals[metric] / rdi[metric]) * 100, 100)}%`} />
-              </div>
-              {formatNum((perDiemTotals[metric] / rdi[metric]) * 100)}%
-            </td>
-          {:else}
-            <td />
-          {/if}
-        {/each}
-      </tr>
-    {/if}
   </table>
+
+  <section id="output">
+    <div>
+      <label>How many people?</label>
+      <input type="number" bind:value={numPeople} />
+    </div>
+
+    <div>
+      <label>Target protein per day</label>
+      <input type="number" bind:value={targetProtein} />
+      <span>g per day</span>
+
+      <div>{expectedDays.protein} days</div>
+    </div>
+
+    <div>
+      <label>Target calories per day</label>
+      <input type="number" bind:value={targetEnergy} />
+      <span>per day</span>
+
+      <div>{expectedDays.energy} days</div>
+    </div>
+  </section>
 </main>
