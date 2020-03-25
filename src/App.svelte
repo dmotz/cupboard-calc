@@ -2,6 +2,7 @@
   import {onMount, tick} from 'svelte'
   import {searchFood, getFoodDetails} from './api'
   import Quagga from 'quagga'
+
   const lsKey = 'ls'
   const metrics = ['grams', 'energy', 'protein']
   const rdi = {
@@ -26,7 +27,7 @@
   let activeSuggestionEl
   let searchTimeout
   let scanning = false
-  let barcodeMessage = ""
+  let barcodeMessage = ''
 
   $: totals = rows.reduce(
     (a, c) => {
@@ -60,22 +61,22 @@
     }ch + 2px)`
   }
 
-  function formatNum(n, d=0) {
-    return (Math.round(n * Math.pow(10,d))/Math.pow(10,d)).toLocaleString()
+  function formatNum(n, d = 0) {
+    return (Math.round(n * Math.pow(10, d)) / Math.pow(10, d)).toLocaleString()
   }
 
-  let a=new AudioContext() // browsers limit the number of concurrent audio contexts, so you better re-use'em
+  let a = new AudioContext()
 
-  function beep(vol, freq, duration){
-    let v=a.createOscillator()
-    let u=a.createGain()
+  function beep(vol, freq, duration) {
+    let v = a.createOscillator()
+    let u = a.createGain()
     v.connect(u)
-    v.frequency.value=freq
-    v.type="square"
+    v.frequency.value = freq
+    v.type = 'square'
     u.connect(a.destination)
-    u.gain.value=vol*0.01
+    u.gain.value = vol * 0.01
     v.start(a.currentTime)
-    v.stop(a.currentTime+duration*0.001)
+    v.stop(a.currentTime + duration * 0.001)
   }
 
   async function addRow() {
@@ -185,55 +186,55 @@
     rows = rows.filter((_, i) => i !== n)
   }
 
-  async function showAddFoodModal() {
+  async function showAddFoodModal() {}
 
-  }
-
-  async function onStartScan(){
-    Quagga.init({
-      inputStream : {
-        name : "Live",
-        type : "LiveStream",
-        target: document.querySelector('#liveview') 
-      },
-      multiple: false,
-      debug: {
-        drawBoundingBox: true
-      },
-      decoder : {
-        readers : ["upc_reader"]
-      }
-    }, function(err) {
-        if (err) {
-            console.log(err);
-            return
+  async function onStartScan() {
+    Quagga.init(
+      {
+        inputStream: {
+          name: 'Live',
+          type: 'LiveStream',
+          target: document.querySelector('#liveview')
+        },
+        multiple: false,
+        debug: {
+          drawBoundingBox: true
+        },
+        decoder: {
+          readers: ['upc_reader']
         }
-        console.log("Initialization finished. Ready to start");
-        scanning = true;
-        Quagga.start();
-    });
+      },
+      function(err) {
+        if (err) {
+          console.log(err)
+          return
+        }
+        console.log('Initialization finished. Ready to start')
+        scanning = true
+        Quagga.start()
+      }
+    )
 
-    Quagga.onDetected(async res=>{
-      if(!scanning) return;
-      scanning = false;
-      barcodeMessage = "Searching..."
+    Quagga.onDetected(async res => {
+      if (!scanning) return
+      scanning = false
+      barcodeMessage = 'Searching...'
 
       beep(5, 520, 200)
       console.log(res)
       // setFood(res.codeResult.code)
       // Quagga.stop()
-      suggestions = (await searchFood(res.codeResult.code))
-      if(suggestions.length > 0){
+      suggestions = await searchFood(res.codeResult.code)
+      if (suggestions.length > 0) {
         setFood(suggestions[0])
-        barcodeMessage = "Found item"
+        barcodeMessage = 'Found item'
       } else {
         barcodeMessage = " ❌ Didn't find product"
       }
 
-      setTimeout(()=> {
-        scanning = true;
+      setTimeout(() => {
+        scanning = true
       }, 2000)
-      
     })
   }
 
@@ -247,7 +248,7 @@
     try {
       const res = JSON.parse(localStorage.getItem(lsKey))
 
-      if (res.rows && res.numPeople ) {
+      if (res.rows && res.numPeople) {
         rows = res.rows
         numPeople = res.numPeople
       }
@@ -255,7 +256,7 @@
       console.log('error restoring data')
     }
 
-    onStartScan();
+    onStartScan()
   })
 </script>
 
@@ -281,7 +282,7 @@
 
   .subtitle {
     font-size: 1.7rem;
-    margin-top: 5rem
+    margin-top: 5rem;
   }
 
   #settings {
@@ -439,7 +440,7 @@
   #add-food-modal {
     border: 1px solid #ccc;
     margin-top: 2rem;
-    display:flex;
+    display: flex;
   }
   #add-food-modal > div {
     padding: 1rem;
@@ -456,10 +457,10 @@
     width: 100%;
     height: 100%;
     position: absolute;
-    background-color: rgba(0,0,0,0.5);
-    top:0;
+    background-color: rgba(0, 0, 0, 0.5);
+    top: 0;
     z-index: 100;
-    color: white;  
+    color: white;
   }
   #barcode-result span {
     top: 50%;
@@ -472,19 +473,26 @@
   /* #liveview {
     width:30%;
   } */
-
 </style>
 
 <main>
   <h2>🍎🥑🥔🥕🥫🥜🍌</h2>
   <h1>Cupboard Calculator</h1>
 
-  <p class="text">This calculator will help you get a ballpark of how long your cupboard will strech</p>
+  <p class="text">
+    This calculator will help you get a ballpark of how long your cupboard will
+    strech
+  </p>
 
   <p class="subtitle">Your Cupboard:</p>
 
-  <p class="text">First up, enter the food you’ve got … for each thing, add up the grams of how much you have. 
-  The calculator will fetch the number of calories and protein in each item from <a href="https://fdc.nal.usda.gov/index.html">usda</a> and sum it up.</p>
+  <p class="text">
+    First up, enter the food you’ve got … for each thing, add up the grams of
+    how much you have. The calculator will fetch the number of calories and
+    protein in each item from
+    <a href="https://fdc.nal.usda.gov/index.html">usda</a>
+    and sum it up.
+  </p>
 
   <table>
     <thead>
@@ -591,80 +599,77 @@
       </tr>
     {/if} -->
   </table>
-  
+
   <!-- <button id="add-button" on:click={showAddFoodModal.bind(null)}>+ Add food</button> -->
 
-  <div id="add-food-modal" >
+  <div id="add-food-modal">
     <div id="add-food-modal-barcode">
       <p>Scan barcode</p>
       <div id="liveview">
-      {#if !scanning}
-      <div id="barcode-result"> 
-        <span>{barcodeMessage}</span>
-      </div>
-      
-      {/if}
+        {#if !scanning}
+          <div id="barcode-result">
+            <span>{barcodeMessage}</span>
+          </div>
+        {/if}
       </div>
     </div>
 
     <div id="add-food-model-manual">
       <p>Enter Manually</p>
 
+      <input
+        placeholder="food name"
+        spellcheck="false"
+        bind:this={foodNameInput}
+        bind:value={pendingName}
+        on:keydown={onFoodInputKey}
+        on:input={onFoodInput}
+        on:blur={onFoodInputBlur} />
+      <span class="check" class:active={pendingFoodData}>✓</span>
+
+      {#if suggestions.length}
+        <ul class="suggestions" bind:this={suggestionsEl}>
+          {#each suggestions as suggestion, i}
+            {#if i === activeSuggestion}
+              <li
+                on:click={setFood.bind(null, suggestion)}
+                bind:this={activeSuggestionEl}
+                class="active">
+                {suggestion.description.toLowerCase()}
+              </li>
+            {:else}
+              <li on:click={setFood.bind(null, suggestion)}>
+                {suggestion.description.toLowerCase()}
+              </li>
+            {/if}
+          {/each}
+        </ul>
+      {/if}
 
       <input
-          placeholder="food name"
-          spellcheck="false"
-          bind:this={foodNameInput}
-          bind:value={pendingName}
-          on:keydown={onFoodInputKey}
-          on:input={onFoodInput}
-          on:blur={onFoodInputBlur} />
-        <span class="check" class:active={pendingFoodData}>✓</span>
-
-        {#if suggestions.length}
-          <ul class="suggestions" bind:this={suggestionsEl}>
-            {#each suggestions as suggestion, i}
-              {#if i === activeSuggestion}
-                <li
-                  on:click={setFood.bind(null, suggestion)}
-                  bind:this={activeSuggestionEl}
-                  class="active">
-                  {suggestion.description.toLowerCase()}
-                </li>
-              {:else}
-                <li on:click={setFood.bind(null, suggestion)}>
-                  {suggestion.description.toLowerCase()}
-                </li>
-              {/if}
-            {/each}
-          </ul>
-        {/if}
-
-
-        <input
-          type="number"
-          placeholder="amount in grams"
-          bind:value={pendingQuantity}
-          bind:this={quantityInput}
-          on:keydown={checkEnter} />
-        X
-        <input
-          type="number"
-          placeholder="count"
-          style="width:5rem"
-          bind:value={pendingMultiplier}
-          bind:this={multiplierInput}
-          on:keydown={checkEnter} />
-        <br><br>
-        <button on:click={addRow} >Add</button>
+        type="number"
+        placeholder="amount in grams"
+        bind:value={pendingQuantity}
+        bind:this={quantityInput}
+        on:keydown={checkEnter} />
+      X
+      <input
+        type="number"
+        placeholder="count"
+        style="width:5rem"
+        bind:value={pendingMultiplier}
+        bind:this={multiplierInput}
+        on:keydown={checkEnter} />
+      <br />
+      <br />
+      <button on:click={addRow}>Add</button>
 
     </div>
-    
+
   </div>
 
-
   <p class="subtitle">Your household:</p>
-  
+
   <p class="text">How many people are in your household?</p>
 
   <div id="settings">
@@ -686,23 +691,22 @@
     </div> -->
   </div>
 
-
-{#each metrics as metric}
-  
-
-  {#if rdi[metric]}
-  <p class="text">This will cover {formatNum(perDiemTotals[metric] / rdi[metric], 1)} days of {metric === 'energy' ? 'calorie' : metric} intake</p>
-    <!-- <td class="percentage">
+  {#each metrics as metric}
+    {#if rdi[metric]}
+      <p class="text">
+        This will cover {formatNum(perDiemTotals[metric] / rdi[metric], 1)} days
+        of {metric === 'energy' ? 'calorie' : metric} intake
+      </p>
+      <!-- <td class="percentage">
       <div class="fill">
         <div
           style={`width:${Math.min((perDiemTotals[metric] / rdi[metric]) * 100, 100)}%`} />
       </div>
       {formatNum((perDiemTotals[metric] / rdi[metric]) * 100)}%
     </td> -->
-  {:else}
-    <!-- <td /> -->
-  {/if} 
-{/each}
+    {:else}
+      <!-- <td /> -->
+    {/if}
+  {/each}
 
-  
 </main>
