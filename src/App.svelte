@@ -352,28 +352,7 @@
 <main>
   <h2>🍎🥑🥔🥕🥫🥜🍌</h2>
   <h1>Cupboard Calculator</h1>
-
-  <p id="intro">Make a plan for:</p>
-
-  <div id="settings">
-    <div>
-      <input type="range" min="1" max="9" bind:value={numPeople} />
-      <label>
-        🙂
-        <span>{numPeople}</span>
-        {numPeople === 1 ? 'person' : 'people'}
-      </label>
-    </div>
-    <div>for</div>
-    <div>
-      <input type="range" min="1" max="60" bind:value={daysNeeded} />
-      <label>
-        📅
-        <span>{daysNeeded}</span>
-        day{daysNeeded === 1 ? '' : 's'}
-      </label>
-    </div>
-  </div>
+  <h3>Get an estimate for how long your food will last</h3>
 
   <table>
     <thead>
