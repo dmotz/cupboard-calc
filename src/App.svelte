@@ -4,10 +4,6 @@
 
   const lsKey = 'ls'
   const metrics = ['grams', 'energy', 'protein']
-  const rdi = {
-    energy: 2000,
-    protein: 50
-  }
   const searchThrottleMs = 500
   const conversions = {
     g: 1,
