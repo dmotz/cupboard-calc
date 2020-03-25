@@ -6,7 +6,7 @@
     "@rollup/plugin-node-resolve": "^7.1.1",
     "cross-env": "^7.0.2",
     "nollup": "^0.10.6",
-    "rollup": "^2.0.6",
+    "rollup": "^1.31.1",
     "rollup-plugin-hot": "^0.0.14",
     "rollup-plugin-livereload": "^1.0.0",
     "rollup-plugin-svelte-hot": "^0.4.0",
