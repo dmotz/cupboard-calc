@@ -9,6 +9,11 @@
     protein: 50
   }
   const searchThrottleMs = 500
+  const conversions = {
+    g: 1,
+    oz: 28.3495
+  }
+  const units = Object.keys(conversions)
 
   let daysNeeded = 7
   let numPeople = 1
