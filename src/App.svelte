@@ -358,16 +358,6 @@
     visibility: visible;
   }
 
-  #add-button {
-    margin-top: 1rem;
-  }
-
-  #input-row td {
-    border-color: var(--blue);
-    padding-bottom: 2rem;
-    padding-top: 1.6rem;
-  }
-
   .check {
     color: rgb(10, 196, 25);
     visibility: hidden;
@@ -375,33 +365,6 @@
 
   .check.active {
     visibility: visible;
-  }
-
-  .totals td {
-    padding-top: 1rem;
-    border-bottom: none;
-    position: relative;
-    font-weight: bold;
-    color: var(--blue);
-  }
-
-  .totals td:first-child {
-    color: #000;
-  }
-
-  .fill {
-    border: 1px solid #eee;
-    width: 90%;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    z-index: -1;
-    transform: translateX(-4px);
-  }
-
-  .fill div {
-    background-color: #eee;
-    height: 100%;
   }
 
   .suggestions {
@@ -462,10 +425,6 @@
     text-align: center;
     width: 100%;
   }
-
-  /* #liveview {
-    width:30%;
-  } */
 </style>
 
 <main>
@@ -687,5 +646,4 @@
       <!-- <td /> -->
     {/if}
   {/each}
-
 </main>
