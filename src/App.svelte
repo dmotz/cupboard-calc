@@ -4,6 +4,7 @@
 
   const lsKey = 'ls'
   const metrics = ['grams', 'energy', 'protein']
+  const nutrientMetrics = metrics.slice(1)
   const searchThrottleMs = 500
   const conversions = {
     g: 1,
@@ -32,10 +33,10 @@
 
   $: totals = rows.reduce(
     (a, c) => {
-      Object.keys(c).forEach(k => (a[k] += c[k]))
+      nutrientMetrics.forEach(k => (a[k] += c[k]))
       return a
     },
-    metrics.slice(1).reduce((a, c) => {
+    nutrientMetrics.reduce((a, c) => {
       a[c] = 0
       return a
     }, {})
