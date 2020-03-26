@@ -11,13 +11,14 @@
     oz: 28.3495
   }
   const units = Object.keys(conversions)
+  const defaults = {people: 1, energy: 2000, protein: 50}
 
   let daysNeeded = 7
   let numPeople = 1
   let pendingName = ''
   let pendingQuantity = ''
-  let targetEnergy = 2000
-  let targetProtein = 50
+  let targetEnergy = defaults.energy
+  let targetProtein = defaults.protein
   let rows = []
   let suggestions = []
   let activeSuggestion = 0
