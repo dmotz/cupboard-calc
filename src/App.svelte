@@ -12,6 +12,11 @@
   }
   const units = Object.keys(conversions)
   const defaults = {people: 1, energy: 2000, protein: 50}
+  const ranges = {
+    people: [1, 9],
+    energy: [1000, 5000],
+    protein: [10, 300]
+  }
 
   let daysNeeded = 7
   let numPeople = 1
