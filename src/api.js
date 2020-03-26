@@ -23,5 +23,5 @@ export async function searchFood(food) {
 }
 
 export async function getFoodDetails(id) {
-  return (await fetch(`${baseUrl}/${id}${keyParam}`)).json()
+  return (await fetch(`${baseUrl}${id}${keyParam}`)).json()
 }
