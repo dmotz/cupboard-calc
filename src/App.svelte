@@ -49,6 +49,15 @@
     ])
   )
 
+  $: dayBlocks = Object.fromEntries(
+    nutrientMetrics.map(k => [
+      k,
+      new Array(isNaN(expectedDays[k]) ? 0 : Math.floor(expectedDays[k]))
+        .fill(100)
+        .concat(expectedDays[k] ? (expectedDays[k] % 1) * 100 : 0)
+    ])
+  )
+
   $: helpText = !pendingFoodData
     ? '👈 type a food in the first field'
     : isNaN(parseFloat(pendingQuantity))
