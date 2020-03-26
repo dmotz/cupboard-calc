@@ -460,23 +460,53 @@
   <section id="output">
     <div>
       <label>How many people?</label>
-      <input type="number" bind:value={numPeople} />
+      <input
+        type="number"
+        bind:value={numPeople}
+        min={ranges.people[0]}
+        max={ranges.people[1]} />
     </div>
 
     <div>
       <label>Target protein per day</label>
-      <input type="number" bind:value={targetProtein} />
+      <input
+        type="number"
+        bind:value={targetProtein}
+        min={ranges.protein[0]}
+        max={ranges.protein[1]} />
       <span>g per day</span>
 
-      <div>{expectedDays.protein} days</div>
+      <div>
+        <p>{expectedDays.protein} days</p>
+        <div class="days">
+          {#each dayBlocks.protein as pct}
+            <div class="day-block">
+              <div style={`width:${pct}%`} />
+            </div>
+          {/each}
+        </div>
+      </div>
     </div>
 
     <div>
       <label>Target calories per day</label>
-      <input type="number" bind:value={targetEnergy} />
+      <input
+        type="number"
+        bind:value={targetEnergy}
+        min={ranges.energy[0]}
+        max={ranges.energy[1]} />
       <span>per day</span>
 
-      <div>{expectedDays.energy} days</div>
+      <div>
+        <p>{expectedDays.energy} days</p>
+        <div class="days">
+          {#each dayBlocks.energy as pct}
+            <div class="day-block">
+              <div style={`width:${pct}%`} />
+            </div>
+          {/each}
+        </div>
+      </div>
     </div>
   </section>
 </main>
