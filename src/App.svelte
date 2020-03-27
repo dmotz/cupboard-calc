@@ -27,6 +27,7 @@
   let rows = []
   let suggestions = []
   let activeSuggestion = 0
+  let showInfo = false
   let didMount = false
   let pendingFoodData
   let foodNameInput
@@ -509,4 +510,15 @@
       </div>
     </div>
   </section>
+  <div id="info">
+    <div id="info-button" on:click={() => (showInfo = !showInfo)}>?</div>
+    {#if showInfo}
+      <p>
+        Nutritional data sourced from the
+        <a href="https://fdc.nal.usda.gov/fdc-app.html#/">
+          USDA FoodData Central
+        </a>
+      </p>
+    {/if}
+  </div>
 </main>
