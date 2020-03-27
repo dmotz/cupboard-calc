@@ -84,8 +84,8 @@
     }ch + 3rem)`
   }
 
-  function formatNum(n) {
-    return Math.round(n).toLocaleString()
+  function formatNum(n, decimals = 0) {
+    return parseFloat(n.toFixed(decimals)).toLocaleString()
   }
 
   async function addRow() {
