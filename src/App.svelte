@@ -391,6 +391,7 @@
   <table>
     <thead>
       <tr>
+        <td />
         <td>food</td>
 
         {#each metrics as metric}
@@ -403,9 +404,8 @@
       <tr>
         <td>
           <span class="delete" on:click={removeRow.bind(null, i)}>❌</span>
-          {row.name}
         </td>
-
+        <td>{row.name}</td>
         {#each metrics as metric}
           <td>
             {#if metric === 'grams'}
