@@ -395,7 +395,9 @@
         <td>food</td>
 
         {#each metrics as metric}
-          <td>{metric === 'energy' ? 'calories' : metric}</td>
+          <td>
+            {metric === 'energy' ? 'calories' : metric === 'grams' ? 'amount' : metric}
+          </td>
         {/each}
       </tr>
     </thead>
