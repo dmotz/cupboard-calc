@@ -8,7 +8,8 @@
   const searchThrottleMs = 500
   const conversions = {
     g: 1,
-    oz: 28.3495
+    oz: 28.3495,
+    lb: 453.592
   }
   const units = Object.keys(conversions)
   const defaults = {people: 1, energy: 2000, protein: 50}
