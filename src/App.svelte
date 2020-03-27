@@ -80,8 +80,8 @@
 
   function getInputWidth(val) {
     return `width:calc(${
-      val === undefined ? 1 : val.toString().length
-    }ch + 2px)`
+      val === undefined || val === '' ? 1 : val.toString().length
+    }ch + 3rem)`
   }
 
   function formatNum(n) {
