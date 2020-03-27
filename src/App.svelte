@@ -418,69 +418,39 @@
       </tr>
     {/each}
 
-    <tr id="input-row">
-      <td>
-        <input
-          placeholder="food name"
-          spellcheck="false"
-          bind:this={foodNameInput}
-          bind:value={pendingName}
-          on:keydown={onFoodInputKey}
-          on:input={onFoodInput}
-          on:blur={onFoodInputBlur} />
-        <span class="check" class:active={pendingFoodData}>✓</span>
-
-        {#if suggestions.length}
-          <ul class="suggestions" bind:this={suggestionsEl}>
-            {#each suggestions as suggestion, i}
-              {#if i === activeSuggestion}
-                <li
-                  on:click={setFood.bind(null, suggestion)}
-                  bind:this={activeSuggestionEl}
-                  class="active">
-                  {suggestion.description.toLowerCase()}
-                </li>
-              {:else}
-                <li on:click={setFood.bind(null, suggestion)}>
-                  {suggestion.description.toLowerCase()}
-                </li>
-              {/if}
-            {/each}
-          </ul>
-        {/if}
-      </td>
-
-      <td>
-        <input
-          type="number"
-          placeholder="0"
-          bind:value={pendingQuantity}
-          bind:this={quantityInput}
-          on:keydown={checkEnter} />
-        {#each units as unit}
-          <span
-            class="measurement"
-            class:active={unit === activeUnit}
-            on:click={setActiveUnit.bind(null, unit)}>
-            {unit}
-          </span>
-        {/each}
-      </td>
-
-      <td colspan="2">
-        <em>{helpText}</em>
-      </td>
-    </tr>
   </table>
 
-  <section id="output">
+  <div id="input-row">
     <div>
-      <label>How many people?</label>
       <input
-        type="number"
-        bind:value={numPeople}
-        min={ranges.people[0]}
-        max={ranges.people[1]} />
+        placeholder="food name"
+        type="text"
+        spellcheck="false"
+        bind:this={foodNameInput}
+        bind:value={pendingName}
+        on:keydown={onFoodInputKey}
+        on:input={onFoodInput}
+        on:blur={onFoodInputBlur} />
+      <span class="check" class:active={pendingFoodData}>✓</span>
+
+      {#if suggestions.length}
+        <ul class="suggestions" bind:this={suggestionsEl}>
+          {#each suggestions as suggestion, i}
+            {#if i === activeSuggestion}
+              <li
+                on:click={setFood.bind(null, suggestion)}
+                bind:this={activeSuggestionEl}
+                class="active">
+                {suggestion.description.toLowerCase()}
+              </li>
+            {:else}
+              <li on:click={setFood.bind(null, suggestion)}>
+                {suggestion.description.toLowerCase()}
+              </li>
+            {/if}
+          {/each}
+        </ul>
+      {/if}
     </div>
 
     <div>
