@@ -29,6 +29,7 @@
   let activeSuggestion = 0
   let showInfo = false
   let didMount = false
+  let activeUnit = 'g'
   let pendingFoodData
   let foodNameInput
   let quantityInput
@@ -88,7 +89,7 @@
 
   async function addRow() {
     const name = pendingName.trim()
-    const quant = parseFloat(pendingQuantity)
+    const quant = parseFloat(pendingQuantity) * conversions[activeUnit]
     const data = await pendingFoodData
 
     if (!name || isNaN(quant) || !data) {
@@ -99,6 +100,7 @@
       ...rows,
       {
         name,
+        unit: activeUnit,
         grams: quant,
         ...metrics.reduce((a, c) => {
           if (c !== 'grams') {
@@ -189,6 +191,10 @@
 
   function removeRow(n) {
     rows = rows.filter((_, i) => i !== n)
+  }
+
+  function setActiveUnit(unit) {
+    activeUnit = unit
   }
 
   onMount(() => {
@@ -398,7 +404,11 @@
         </td>
 
         {#each metrics as metric}
-          <td>{formatNum(row[metric])}</td>
+          <td>
+            {#if metric === 'grams'}
+              {formatNum(row[metric] / conversions[row.unit])} {row.unit}
+            {:else}{formatNum(row[metric])}{/if}
+          </td>
         {/each}
       </tr>
     {/each}
