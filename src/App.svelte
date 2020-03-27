@@ -454,16 +454,65 @@
     </div>
 
     <div>
-      <label>Target protein per day</label>
       <input
         type="number"
-        bind:value={targetProtein}
-        min={ranges.protein[0]}
-        max={ranges.protein[1]} />
-      <span>g per day</span>
+        placeholder="0"
+        bind:value={pendingQuantity}
+        bind:this={quantityInput}
+        on:keydown={checkEnter}
+        class="amount-input"
+        style={getInputWidth(pendingQuantity)} />
+      {#each units as unit}
+        <span
+          class="unit"
+          class:active={unit === activeUnit}
+          on:click={setActiveUnit.bind(null, unit)}>
+          {unit}
+        </span>
+      {/each}
+    </div>
 
-      <div>
-        <p>{expectedDays.protein} days</p>
+    <div id="help-text">{helpText}</div>
+  </div>
+
+  <section id="output">
+    <div>
+      <label>Number of people</label>
+      <div class="inputs">
+        <input
+          type="range"
+          bind:value={numPeople}
+          min={ranges.people[0]}
+          max={ranges.people[1]} />
+        <input
+          type="number"
+          bind:value={numPeople}
+          min={ranges.people[0]}
+          max={ranges.people[1]} />
+        <span>{new Array(numPeople).fill('🙂').join('')}</span>
+      </div>
+    </div>
+
+    <div>
+      <label>Target protein (g) per day</label>
+      <div class="inputs">
+        <input
+          type="range"
+          bind:value={targetProtein}
+          min={ranges.protein[0]}
+          max={ranges.protein[1]} />
+        <input
+          type="number"
+          bind:value={targetProtein}
+          min={ranges.protein[0]}
+          max={ranges.protein[1]} />
+      </div>
+
+      <div class="day-count">
+        <p>
+          {formatNum(expectedDays.protein, 1)}
+          {Math.floor(expectedDays.protein) === 1 ? 'day' : 'days'}
+        </p>
         <div class="days">
           {#each dayBlocks.protein as pct}
             <div class="day-block">
@@ -476,15 +525,20 @@
 
     <div>
       <label>Target calories per day</label>
-      <input
-        type="number"
-        bind:value={targetEnergy}
-        min={ranges.energy[0]}
-        max={ranges.energy[1]} />
-      <span>per day</span>
-
-      <div>
-        <p>{expectedDays.energy} days</p>
+      <div class="inputs">
+        <input
+          type="range"
+          bind:value={targetEnergy}
+          min={ranges.energy[0]}
+          max={ranges.energy[1]} />
+        <input
+          type="number"
+          bind:value={targetEnergy}
+          min={ranges.energy[0]}
+          max={ranges.energy[1]} />
+      </div>
+      <div class="day-count">
+        <p>{formatNum(expectedDays.energy, 1)} days</p>
         <div class="days">
           {#each dayBlocks.energy as pct}
             <div class="day-block">
