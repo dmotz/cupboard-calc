@@ -1,6 +1,7 @@
 <script>
   import {onMount, tick} from 'svelte'
   import {searchFood, getFoodDetails} from './api'
+  import {formatNum} from './utils'
 
   const lsKey = 'ls'
   const metrics = ['grams', 'energy', 'protein']
@@ -82,10 +83,6 @@
     return `width:calc(${
       val === undefined || val === '' ? 1 : val.toString().length
     }ch + 3rem)`
-  }
-
-  function formatNum(n, decimals = 0) {
-    return parseFloat(n.toFixed(decimals)).toLocaleString()
   }
 
   async function addRow() {
