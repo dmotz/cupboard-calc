@@ -494,6 +494,32 @@
     </div>
 
     <div>
+      <label>Target calories per day</label>
+      <div class="inputs">
+        <input
+          type="range"
+          bind:value={targetEnergy}
+          min={ranges.energy[0]}
+          max={ranges.energy[1]} />
+        <input
+          type="number"
+          bind:value={targetEnergy}
+          min={ranges.energy[0]}
+          max={ranges.energy[1]} />
+      </div>
+      <div class="day-count">
+        <p>{formatNum(expectedDays.energy, 1)} days</p>
+        <div class="days">
+          {#each dayBlocks.energy as pct}
+            <div class="day-block">
+              <div style={`width:${pct}%`} />
+            </div>
+          {/each}
+        </div>
+      </div>
+    </div>
+
+    <div>
       <label>Target protein (g) per day</label>
       <div class="inputs">
         <input
@@ -515,32 +541,6 @@
         </p>
         <div class="days">
           {#each dayBlocks.protein as pct}
-            <div class="day-block">
-              <div style={`width:${pct}%`} />
-            </div>
-          {/each}
-        </div>
-      </div>
-    </div>
-
-    <div>
-      <label>Target calories per day</label>
-      <div class="inputs">
-        <input
-          type="range"
-          bind:value={targetEnergy}
-          min={ranges.energy[0]}
-          max={ranges.energy[1]} />
-        <input
-          type="number"
-          bind:value={targetEnergy}
-          min={ranges.energy[0]}
-          max={ranges.energy[1]} />
-      </div>
-      <div class="day-count">
-        <p>{formatNum(expectedDays.energy, 1)} days</p>
-        <div class="days">
-          {#each dayBlocks.energy as pct}
             <div class="day-block">
               <div style={`width:${pct}%`} />
             </div>
