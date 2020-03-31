@@ -426,7 +426,7 @@
       {#each rows as row, i}
         <tr>
           <td>
-            <span class="delete" on:click={removeRow.bind(null, i)}>❌</span>
+            <span class="delete" on:click={removeRow.bind(null, i)}>🗑</span>
           </td>
           <td>{row.name}</td>
           <td>{formatNum(row.grams / conversions[row.unit])} {row.unit}</td>
