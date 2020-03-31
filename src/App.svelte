@@ -548,13 +548,14 @@
         </div>
       </div>
     </div>
+
   </section>
   <div id="info">
     <div id="info-button" on:click={() => (showInfo = !showInfo)}>?</div>
     {#if showInfo}
       <p>
         Nutritional data sourced from the
-        <a href="https://fdc.nal.usda.gov/fdc-app.html#/">
+        <a href="https://fdc.nal.usda.gov/fdc-app.html#/" target="_blank">
           USDA FoodData Central
         </a>
       </p>
