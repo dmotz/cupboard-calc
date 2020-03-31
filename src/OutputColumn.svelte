@@ -9,6 +9,8 @@
   export let dayNum = NaN
   export let dayBlocks = []
 
+  $: isPeopleCount = isNaN(dayNum)
+
   function onValChange(e) {
     const n = parseFloat(e.target.value)
     if (!isNaN(n)) {
@@ -54,18 +56,33 @@
     background-color: var(--green2);
     height: 100%;
   }
+
+  .sub-label {
+    font-size: 1.2rem;
+    margin-bottom: 0.8rem;
+    font-weight: normal;
+  }
+
+  span {
+    font-size: 1.4rem;
+  }
 </style>
 
 <div class="col">
   <label>{title}</label>
+  <label class="sub-label">
+    {isPeopleCount ? 'in your household' : 'per person, per day'}
+  </label>
 
   <div class="inputs">
     <input type="range" on:input={onValChange} {min} {max} {value} />
     <input type="number" on:input={onValChange} {min} {max} {value} />
   </div>
 
-  {#if !isNaN(dayNum)}
-    <div class="day-count">
+  <div class="day-count">
+    {#if isPeopleCount}
+      <span>{new Array(value).fill('🙂').join('')}</span>
+    {:else}
       <p>{formatNum(dayNum, 1)} days</p>
       <div class="days">
         {#each dayBlocks as pct}
@@ -74,8 +91,7 @@
           </div>
         {/each}
       </div>
-    </div>
-  {:else}
-    <span>{new Array(value).fill('🙂').join('')}</span>
-  {/if}
+    {/if}
+  </div>
+
 </div>
