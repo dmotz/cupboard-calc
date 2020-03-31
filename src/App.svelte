@@ -2,6 +2,7 @@
   import {onMount, tick} from 'svelte'
   import {searchFood, getFoodDetails} from './api'
   import {formatNum} from './utils'
+  import OutputColumn from './OutputColumn.svelte'
 
   const lsKey = 'ls'
   const metrics = ['grams', 'energy', 'protein']
@@ -558,80 +559,32 @@
   </div>
 
   <section id="output">
-    <div>
-      <label>Number of people</label>
-      <div class="inputs">
-        <input
-          type="range"
-          bind:value={numPeople}
-          min={ranges.people[0]}
-          max={ranges.people[1]} />
-        <input
-          type="number"
-          bind:value={numPeople}
-          min={ranges.people[0]}
-          max={ranges.people[1]} />
-        <span>{new Array(numPeople).fill('🙂').join('')}</span>
-      </div>
-    </div>
+    <OutputColumn
+      title="Number of people"
+      value={numPeople}
+      min={ranges.people[0]}
+      max={ranges.people[1]}
+      onUpdate={n => (numPeople = n)} />
 
-    <div>
-      <label>Target calories per person per day</label>
-      <div class="inputs">
-        <input
-          type="range"
-          bind:value={targetEnergy}
-          min={ranges.energy[0]}
-          max={ranges.energy[1]} />
-        <input
-          type="number"
-          bind:value={targetEnergy}
-          min={ranges.energy[0]}
-          max={ranges.energy[1]} />
-      </div>
-      <div class="day-count">
-        <p>{formatNum(expectedDays.energy, 1)} days</p>
-        <div class="days">
-          {#each dayBlocks.energy as pct}
-            <div class="day-block">
-              <div style={`width:${pct}%`} />
-            </div>
-          {/each}
-        </div>
-      </div>
-    </div>
+    <OutputColumn
+      title="Target calories per person per day"
+      value={targetEnergy}
+      min={ranges.energy[0]}
+      max={ranges.energy[1]}
+      onUpdate={n => (targetEnergy = n)}
+      dayNum={expectedDays.energy}
+      dayBlocks={dayBlocks.energy} />
 
-    <div>
-      <label>Target protein (g) per person per day</label>
-      <div class="inputs">
-        <input
-          type="range"
-          bind:value={targetProtein}
-          min={ranges.protein[0]}
-          max={ranges.protein[1]} />
-        <input
-          type="number"
-          bind:value={targetProtein}
-          min={ranges.protein[0]}
-          max={ranges.protein[1]} />
-      </div>
-
-      <div class="day-count">
-        <p>
-          {formatNum(expectedDays.protein, 1)}
-          {Math.floor(expectedDays.protein) === 1 ? 'day' : 'days'}
-        </p>
-        <div class="days">
-          {#each dayBlocks.protein as pct}
-            <div class="day-block">
-              <div style={`width:${pct}%`} />
-            </div>
-          {/each}
-        </div>
-      </div>
-    </div>
-
+    <OutputColumn
+      title="Target protein (g) per person per day"
+      value={targetProtein}
+      min={ranges.protein[0]}
+      max={ranges.protein[1]}
+      onUpdate={n => (targetProtein = n)}
+      dayNum={expectedDays.protein}
+      dayBlocks={dayBlocks.protein} />
   </section>
+
   <div id="info">
     <div id="info-button" on:click={() => (showInfo = !showInfo)}>?</div>
     {#if showInfo}
