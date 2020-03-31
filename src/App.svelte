@@ -219,73 +219,84 @@
 <style>
   :root {
     --blue: rgb(0, 50, 252);
+    --input-bg: #e8f0fe;
+    --dark-blue: #1a73e8;
+    --gray: #5f6368;
+    --green: #188038;
+    --green2: #5bb974;
+  }
+
+  header {
+    /* padding-left: 3rem; */
   }
 
   h1 {
     font-size: 3rem;
   }
 
-  #intro {
-    font-size: 1.7rem;
+  h2 {
+    margin-bottom: 1rem;
   }
 
-  #settings {
-    display: flex;
-    align-items: center;
-    font-size: 1.6rem;
-    margin-bottom: 3rem;
-    color: #888;
+  h3 {
+    color: var(--gray);
+    font-weight: normal;
+    margin: 1rem 0;
+    font-size: 1.4rem;
   }
 
-  #settings div {
-    margin-right: 1.5rem;
-    text-align: center;
-  }
-
-  #settings input {
-    display: block;
-    width: 12rem;
-  }
-
-  #settings label {
-    color: #000;
-    margin-top: 1rem;
-    display: block;
-  }
-
-  #settings span {
-    color: var(--blue);
-    font-weight: bold;
-    margin-left: 0.4rem;
+  input[type='text'],
+  input[type='number'] {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 1.4rem;
+    padding: 0.6rem;
+    background-color: var(--input-bg);
+    border: none;
+    border-bottom: 1px solid var(--dark-blue);
+    color: var(--dark-blue);
   }
 
   table {
     font-size: 1.4rem;
     border-collapse: collapse;
     width: 100%;
+    table-layout: fixed;
   }
 
   thead {
     color: #aaa;
   }
 
+  tr {
+    border: 1px solid #ccc;
+  }
+
+  thead tr {
+    border: none;
+  }
+
   td {
-    border-bottom: 1px solid #ccc;
     padding: 0.8rem 0;
     padding-right: 2rem;
     position: relative;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 22rem;
   }
 
   td:first-child {
-    padding-left: 2rem;
+    text-align: center;
+    width: 3rem;
+    padding: 0;
   }
 
-  td input {
-    font-size: 1.4rem;
-    border: none;
-    border-bottom: 3px solid var(--blue);
-    position: relative;
-    overflow: visible;
+  td:nth-child(2) {
+    width: 60%;
+  }
+
+  td:last-child {
+    padding: 0;
   }
 
   td em {
@@ -301,7 +312,6 @@
     font-size: 1rem;
     visibility: hidden;
     cursor: pointer;
-    position: absolute;
     left: 0;
   }
 
@@ -309,46 +319,53 @@
     visibility: visible;
   }
 
-  #input-row td {
-    border-color: var(--blue);
-    padding-bottom: 2rem;
-    padding-top: 1.6rem;
+  #input-row {
+    border: none;
+    display: flex;
+    margin-top: 2rem;
+    padding-left: 2.5rem;
+  }
+
+  #input-row > div {
+    display: flex;
+    align-items: center;
+    margin-right: 2rem;
+    position: relative;
+  }
+
+  #help-text {
+    font-size: 1.3rem;
+    color: var(--gray);
+  }
+
+  .unit {
+    cursor: pointer;
+    background-color: var(--input-bg);
+    color: var(--dark-blue);
+    margin-left: 0.4rem;
+    padding: 0.3rem;
+    font-size: 1.2rem;
+    padding-top: 0.2rem;
+    display: inline-block;
+    font-weight: bold;
+    text-align: center;
+    opacity: 0.33;
+    border-radius: 4px;
+  }
+
+  .unit.active {
+    opacity: 1;
   }
 
   .check {
     color: rgb(10, 196, 25);
     visibility: hidden;
+    margin-left: 0.4rem;
+    font-size: 1.4rem;
   }
 
   .check.active {
     visibility: visible;
-  }
-
-  .totals td {
-    padding-top: 1rem;
-    border-bottom: none;
-    position: relative;
-    font-weight: bold;
-    color: var(--blue);
-  }
-
-  .totals td:first-child {
-    color: #000;
-  }
-
-  .fill {
-    border: 1px solid #eee;
-    width: 90%;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    z-index: -1;
-    transform: translateX(-4px);
-  }
-
-  .fill div {
-    background-color: #eee;
-    height: 100%;
   }
 
   .suggestions {
@@ -359,22 +376,90 @@
     width: 20rem;
     max-height: 20rem;
     overflow: auto;
-    border: 1px solid #aaa;
+    border: 1px solid #000;
     margin-top: 0.4rem;
     z-index: 99;
+    top: 100%;
   }
 
   .suggestions li {
     padding: 1rem;
     font-size: 1.2rem;
     cursor: pointer;
-    border-bottom: 1px solid #aaa;
+    border-bottom: 1px solid #000;
   }
 
   .suggestions li:hover,
   .suggestions .active {
     background-color: #aaa;
     color: #fff;
+    background-color: #000;
+    color: #fff;
+  }
+
+  #output {
+    display: flex;
+    justify-content: space-between;
+    padding: 2rem;
+    font-size: 1.4rem;
+    margin-top: 2rem;
+  }
+
+  #output > div {
+    flex: 1 1 0;
+    padding: 0 1rem;
+  }
+
+  #output label {
+    display: block;
+    margin-bottom: 0.4rem;
+    /* text-transform: uppercase; */
+    font-weight: bold;
+  }
+
+  #output input[type='range'] {
+    margin-bottom: 1.6rem;
+  }
+
+  .day-count {
+    margin-top: 4rem;
+    padding-top: 0.4rem;
+    border-top: 1px solid var(--gray);
+    padding-top: 1rem;
+    color: var(--green);
+    font-size: 2rem;
+  }
+
+  .day-block {
+    display: inline-block;
+    width: 0.8rem;
+    height: 0.8rem;
+    margin: 0.05rem 0.1rem;
+    margin: 1px 1px;
+  }
+
+  .day-block div {
+    background-color: var(--green2);
+    height: 100%;
+  }
+
+  #info {
+    position: absolute;
+    bottom: 2rem;
+    left: 2rem;
+    display: flex;
+    align-items: center;
+    color: var(--gray);
+  }
+
+  #info-button {
+    font-size: 1.4rem;
+    cursor: pointer;
+    margin-right: 1rem;
+  }
+
+  #info a {
+    color: var(--dark-blue);
   }
 </style>
 
