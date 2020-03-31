@@ -382,44 +382,6 @@
     margin-top: 2rem;
   }
 
-  #output > div {
-    flex: 1 1 0;
-    padding: 0 1rem;
-  }
-
-  #output label {
-    display: block;
-    margin-bottom: 0.4rem;
-    /* text-transform: uppercase; */
-    font-weight: bold;
-  }
-
-  #output input[type='range'] {
-    margin-bottom: 1.6rem;
-  }
-
-  .day-count {
-    margin-top: 4rem;
-    padding-top: 0.4rem;
-    border-top: 1px solid var(--gray);
-    padding-top: 1rem;
-    color: var(--green);
-    font-size: 2rem;
-  }
-
-  .day-block {
-    display: inline-block;
-    width: 0.8rem;
-    height: 0.8rem;
-    margin: 0.05rem 0.1rem;
-    margin: 1px 1px;
-  }
-
-  .day-block div {
-    background-color: var(--green2);
-    height: 100%;
-  }
-
   #info {
     position: absolute;
     bottom: 2rem;
