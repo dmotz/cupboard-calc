@@ -505,7 +505,7 @@
       onUpdate={n => (numPeople = n)} />
 
     <OutputColumn
-      title="Target calories per person per day"
+      title="Target calories"
       value={targetEnergy}
       min={ranges.energy[0]}
       max={ranges.energy[1]}
@@ -514,7 +514,7 @@
       dayBlocks={dayBlocks.energy} />
 
     <OutputColumn
-      title="Target protein (g) per person per day"
+      title="Target protein (g)"
       value={targetProtein}
       min={ranges.protein[0]}
       max={ranges.protein[1]}
