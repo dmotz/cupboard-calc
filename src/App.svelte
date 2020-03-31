@@ -494,7 +494,7 @@
     </div>
 
     <div>
-      <label>Target calories per day</label>
+      <label>Target calories per person per day</label>
       <div class="inputs">
         <input
           type="range"
@@ -520,7 +520,7 @@
     </div>
 
     <div>
-      <label>Target protein (g) per day</label>
+      <label>Target protein (g) per person per day</label>
       <div class="inputs">
         <input
           type="range"
