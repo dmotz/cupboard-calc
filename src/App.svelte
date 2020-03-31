@@ -218,19 +218,6 @@
 </script>
 
 <style>
-  :root {
-    --blue: rgb(0, 50, 252);
-    --input-bg: #e8f0fe;
-    --dark-blue: #1a73e8;
-    --gray: #5f6368;
-    --green: #188038;
-    --green2: #5bb974;
-  }
-
-  header {
-    /* padding-left: 3rem; */
-  }
-
   h1 {
     font-size: 3rem;
   }
@@ -244,17 +231,6 @@
     font-weight: normal;
     margin: 1rem 0;
     font-size: 1.4rem;
-  }
-
-  input[type='text'],
-  input[type='number'] {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-size: 1.4rem;
-    padding: 0.6rem;
-    background-color: var(--input-bg);
-    border: none;
-    border-bottom: 1px solid var(--dark-blue);
-    color: var(--dark-blue);
   }
 
   table {
