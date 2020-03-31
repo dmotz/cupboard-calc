@@ -409,11 +409,21 @@
     <h3>Get an estimate for how long your food will last</h3>
   </header>
 
-  <table>
-    <thead>
-      <tr>
-        <td />
-        <td>food</td>
+  {#if rows.length}
+    <table>
+      <thead>
+        <tr>
+          <td>food</td>
+          <td />
+          <td>amount</td>
+          <td />
+          {#each nutrientMetrics as metric}
+            <td>
+              {metric === 'energy' ? 'calories' : metric === 'grams' ? 'amount' : metric}
+            </td>
+          {/each}
+        </tr>
+      </thead>
 
         {#each metrics as metric}
           <td>
