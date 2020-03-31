@@ -418,38 +418,26 @@
           <td>amount</td>
           <td />
           {#each nutrientMetrics as metric}
-            <td>
-              {metric === 'energy' ? 'calories' : metric === 'grams' ? 'amount' : metric}
-            </td>
+            <td>{metric === 'energy' ? 'calories' : metric}</td>
           {/each}
         </tr>
       </thead>
 
-        {#each metrics as metric}
+      {#each rows as row, i}
+        <tr>
           <td>
-            {metric === 'energy' ? 'calories' : metric === 'grams' ? 'amount' : metric}
+            <span class="delete" on:click={removeRow.bind(null, i)}>❌</span>
           </td>
-        {/each}
-      </tr>
-    </thead>
-
-    {#each rows as row, i}
-      <tr>
-        <td>
-          <span class="delete" on:click={removeRow.bind(null, i)}>❌</span>
-        </td>
-        <td>{row.name}</td>
-        {#each metrics as metric}
-          <td>
-            {#if metric === 'grams'}
-              {formatNum(row[metric] / conversions[row.unit])} {row.unit}
-            {:else}{formatNum(row[metric])}{/if}
-          </td>
-        {/each}
-      </tr>
-    {/each}
-
-  </table>
+          <td>{row.name}</td>
+          <td>{formatNum(row.grams / conversions[row.unit])} {row.unit}</td>
+          <td style="text-align:center">➡</td>
+          {#each nutrientMetrics as metric}
+            <td>{formatNum(row[metric])}</td>
+          {/each}
+        </tr>
+      {/each}
+    </table>
+  {/if}
 
   <div id="input-row">
     <div>
