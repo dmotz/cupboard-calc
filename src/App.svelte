@@ -261,6 +261,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 22rem;
+    min-width: 10rem;
   }
 
   td:first-child {
@@ -270,20 +271,22 @@
   }
 
   td:nth-child(2) {
-    width: 60%;
+    width: 50%;
+  }
+
+  td:nth-child(4) {
+    width: 3rem;
+    padding: 0;
+    color: #aaa;
   }
 
   td:last-child {
     padding: 0;
   }
 
-  td em {
-    color: #ccc;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-50%);
-    width: 100%;
+  td a {
+    color: #000;
+    text-decoration-color: var(--dark-blue);
   }
 
   .delete {
@@ -384,18 +387,24 @@
   }
 
   #info {
-    position: absolute;
-    bottom: 2rem;
-    left: 2rem;
+    margin-top: 4rem;
     display: flex;
-    align-items: center;
     color: var(--gray);
+    line-height: 2;
   }
 
   #info-button {
     font-size: 1.4rem;
     cursor: pointer;
     margin-right: 1rem;
+    width: 2rem;
+    height: 2rem;
+    user-select: none;
+    border: 1px solid var(--gray);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
   }
 
   #info a {
