@@ -281,6 +281,7 @@
     width: 3rem;
     padding: 0;
     color: #aaa;
+    text-align: center;
   }
 
   td:last-child {
@@ -450,7 +451,7 @@
             </a>
           </td>
           <td>{formatNum(row.grams / conversions[row.unit])} {row.unit}</td>
-          <td style="text-align:center">➡</td>
+          <td>➡</td>
           {#each nutrientMetrics as metric}
             <td>{formatNum(row[metric])}</td>
           {/each}
