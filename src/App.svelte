@@ -424,20 +424,20 @@
     <h3>Get a quick estimate for how long your food will last</h3>
   </header>
 
-  {#if rows.length}
-    <table>
-      <thead>
-        <tr>
-          <td />
-          <td>food</td>
-          <td>amount</td>
-          <td />
-          {#each nutrientMetrics as metric}
-            <td>{metric === 'energy' ? 'calories' : metric}</td>
-          {/each}
-        </tr>
-      </thead>
+  <table>
+    <thead>
+      <tr>
+        <td />
+        <td>food</td>
+        <td>amount</td>
+        <td />
+        {#each nutrientMetrics as metric}
+          <td>{metric === 'energy' ? 'calories' : metric}</td>
+        {/each}
+      </tr>
+    </thead>
 
+    {#if rows.length}
       {#each rows as row, i}
         <tr>
           <td>
@@ -451,14 +451,26 @@
             </a>
           </td>
           <td>{formatNum(row.grams / conversions[row.unit])} {row.unit}</td>
+          <!-- <td>
+            <input type="number" value={row.grams} />
+          </td> -->
           <td>➡</td>
           {#each nutrientMetrics as metric}
             <td>{formatNum(row[metric])}</td>
           {/each}
         </tr>
       {/each}
-    </table>
-  {/if}
+    {:else}
+      <tr>
+        <td />
+        <td>👇 add a food below</td>
+        <td>-</td>
+        <td />
+        <td>-</td>
+        <td>-</td>
+      </tr>
+    {/if}
+  </table>
 
   <div id="input-row">
     <div>
