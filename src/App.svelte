@@ -435,13 +435,30 @@
   #info a {
     color: var(--dark-blue);
   }
+
+  #scanner {
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+    padding-left: 2.5rem;
+    padding-top: 1rem;
+  }
+
+  .start-scan {
+    display: inline-block;
+    margin-left: 2.5rem;
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    color: var(--dark-blue);
+    cursor: pointer;
+  }
 </style>
 
 <main>
   <header>
     <h2>🍎🥑🥔🥕🥫🥜🍌</h2>
     <h1>Cupboard Calculator</h1>
-    <h3>Get a quick estimate for how long your food will last</h3>
+    <h3>A handy tool for planning your pantry</h3>
   </header>
 
   <table>
