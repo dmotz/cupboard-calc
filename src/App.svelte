@@ -77,7 +77,10 @@
   $: _ =
     rows &&
     didMount &&
-    localStorage.setItem(lsKey, JSON.stringify({rows, numPeople}))
+    localStorage.setItem(
+      lsKey,
+      JSON.stringify({rows, numPeople, targetEnergy, targetProtein})
+    )
 
   function getInputWidth(val) {
     return `width:calc(${
@@ -206,9 +209,11 @@
     try {
       const res = JSON.parse(localStorage.getItem(lsKey))
 
-      if (res.rows && res.numPeople) {
+      if (res.rows && res.numPeople && res.targetEnergy && res.targetProtein) {
         rows = res.rows
         numPeople = res.numPeople
+        targetEnergy = res.targetEnergy
+        targetProtein = res.targetProtein
       }
     } catch (e) {
       console.log('error restoring data')
