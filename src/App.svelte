@@ -394,6 +394,7 @@
     display: flex;
     color: var(--gray);
     line-height: 2;
+    min-height: 6rem;
   }
 
   #info-button {
