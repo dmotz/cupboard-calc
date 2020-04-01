@@ -414,8 +414,8 @@
     <table>
       <thead>
         <tr>
-          <td>food</td>
           <td />
+          <td>food</td>
           <td>amount</td>
           <td />
           {#each nutrientMetrics as metric}
