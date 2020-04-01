@@ -101,6 +101,7 @@
         name,
         unit: activeUnit,
         grams: quant,
+        foodId: data.fdcId,
         ...metrics.reduce((a, c) => {
           if (c !== 'grams') {
             a[c] = findNutrientData(c, quant, data)
@@ -428,7 +429,13 @@
           <td>
             <span class="delete" on:click={removeRow.bind(null, i)}>🗑</span>
           </td>
-          <td>{row.name}</td>
+          <td>
+            <a
+              href={`https://fdc.nal.usda.gov/fdc-app.html#/food-details/${row.foodId}/nutrients`}
+              target="_blank">
+              {row.name}
+            </a>
+          </td>
           <td>{formatNum(row.grams / conversions[row.unit])} {row.unit}</td>
           <td style="text-align:center">➡</td>
           {#each nutrientMetrics as metric}
