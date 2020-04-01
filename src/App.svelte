@@ -536,6 +536,9 @@
         <a href="https://fdc.nal.usda.gov/fdc-app.html#/" target="_blank">
           USDA FoodData Central
         </a>
+
+        <br />
+        Remember: nutritional stats can change during cooking
       </p>
     {/if}
   </div>
