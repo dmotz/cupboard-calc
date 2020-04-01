@@ -421,7 +421,7 @@
   <header>
     <h2>🍎🥑🥔🥕🥫🥜🍌</h2>
     <h1>Cupboard Calculator</h1>
-    <h3>Get an estimate for how long your food will last</h3>
+    <h3>Get a quick estimate for how long your food will last</h3>
   </header>
 
   {#if rows.length}
