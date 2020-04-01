@@ -2,6 +2,7 @@
   import {onMount, tick} from 'svelte'
   import {searchFood, getFoodDetails} from './api'
   import {formatNum} from './utils'
+  import BarcodeScanner from './BarcodeScanner.svelte'
   import OutputColumn from './OutputColumn.svelte'
 
   const lsKey = 'ls'
@@ -31,6 +32,8 @@
   let activeSuggestion = 0
   let showInfo = false
   let didMount = false
+  let scannerEnabled = false
+  let failedScan = false
   let activeUnit = 'g'
   let pendingFoodData
   let foodNameInput
@@ -188,7 +191,9 @@
     pendingName = food.description.toLowerCase()
     pendingFoodData = getFoodDetails(food.fdcId)
     suggestions = []
-    quantityInput.focus()
+    if (quantityInput) {
+      quantityInput.focus()
+    }
   }
 
   function removeRow(n) {
@@ -197,6 +202,21 @@
 
   function setActiveUnit(unit) {
     activeUnit = unit
+  }
+
+  function toggleScanner() {
+    scannerEnabled = !scannerEnabled
+  }
+
+  async function onScan(code) {
+    const results = await searchFood(code)
+    if (results.length) {
+      setFood(results[0])
+      failedScan = false
+      scannerEnabled = false
+    } else {
+      failedScan = true
+    }
   }
 
   onMount(() => {
@@ -525,6 +545,18 @@
     </div>
 
     <div id="help-text">{helpText}</div>
+  </div>
+
+  {#if !scannerEnabled}
+    <span class="start-scan" on:click={toggleScanner}>🔍 scan barcode</span>
+  {/if}
+  <div id="scanner">
+    {#if scannerEnabled}
+      <BarcodeScanner {onScan} onClose={toggleScanner} />
+      {#if failedScan}
+        <span>⚠️ Canʼt find item via barcode, try manually adding.</span>
+      {/if}
+    {/if}
   </div>
 
   <section id="output">
