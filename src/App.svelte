@@ -477,6 +477,11 @@
           </li>
 
           <li>Remember: nutritional stats can change during cooking</li>
+
+          <li>
+            Source code
+            <a href="https://github.com/dmotz/foodcalc">here</a>
+          </li>
         </ul>
       {/if}
       <div id="info-button" on:click={() => (showInfo = !showInfo)}>?</div>
