@@ -21,7 +21,6 @@
     protein: [10, 300]
   }
 
-  let daysNeeded = 7
   let numPeople = 1
   let pendingName = ''
   let pendingQuantity = ''
@@ -78,7 +77,7 @@
   $: _ =
     rows &&
     didMount &&
-    localStorage.setItem(lsKey, JSON.stringify({rows, numPeople, daysNeeded}))
+    localStorage.setItem(lsKey, JSON.stringify({rows, numPeople}))
 
   function getInputWidth(val) {
     return `width:calc(${
@@ -207,10 +206,9 @@
     try {
       const res = JSON.parse(localStorage.getItem(lsKey))
 
-      if (res.rows && res.numPeople && res.daysNeeded) {
+      if (res.rows && res.numPeople) {
         rows = res.rows
         numPeople = res.numPeople
-        daysNeeded = res.daysNeeded
       }
     } catch (e) {
       console.log('error restoring data')
