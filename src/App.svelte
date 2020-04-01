@@ -242,6 +242,10 @@
 </script>
 
 <style>
+  header {
+    position: relative;
+  }
+
   h1 {
     font-size: 3rem;
   }
@@ -411,19 +415,21 @@
   }
 
   #info {
-    margin-top: 4rem;
     display: flex;
     color: var(--gray);
     line-height: 2;
     min-height: 6rem;
+    position: absolute;
+    top: 0;
+    right: 0;
   }
 
   #info-button {
-    font-size: 1.4rem;
+    font-size: 1.1rem;
     cursor: pointer;
-    margin-right: 1rem;
-    width: 2rem;
-    height: 2rem;
+    margin-left: 1rem;
+    width: 1.5rem;
+    height: 1.5rem;
     user-select: none;
     border: 1px solid var(--gray);
     display: flex;
@@ -459,6 +465,22 @@
     <h2>🍎🥑🥔🥕🥫🥜🍌</h2>
     <h1>Cupboard Calculator</h1>
     <h3>A handy tool for planning your pantry</h3>
+
+    <div id="info">
+      {#if showInfo}
+        <ul>
+          <li>
+            Nutritional data sourced from the
+            <a href="https://fdc.nal.usda.gov/fdc-app.html#/" target="_blank">
+              USDA FoodData Central
+            </a>
+          </li>
+
+          <li>Remember: nutritional stats can change during cooking</li>
+        </ul>
+      {/if}
+      <div id="info-button" on:click={() => (showInfo = !showInfo)}>?</div>
+    </div>
   </header>
 
   <table>
@@ -603,18 +625,4 @@
       dayBlocks={dayBlocks.protein} />
   </section>
 
-  <div id="info">
-    <div id="info-button" on:click={() => (showInfo = !showInfo)}>?</div>
-    {#if showInfo}
-      <p>
-        Nutritional data sourced from the
-        <a href="https://fdc.nal.usda.gov/fdc-app.html#/" target="_blank">
-          USDA FoodData Central
-        </a>
-
-        <br />
-        Remember: nutritional stats can change during cooking
-      </p>
-    {/if}
-  </div>
 </main>
