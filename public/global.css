@@ -92,3 +92,12 @@ input[type='range']::-webkit-slider-runnable-track {
 input[type='range']::-webkit-slider-runnable-track:active {
   cursor: -webkit-grabbing;
 }
+
+video {
+  width: 100%;
+  filter: grayscale(100%);
+}
+
+canvas {
+  display: none;
+}
