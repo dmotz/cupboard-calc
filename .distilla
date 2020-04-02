@@ -1,0 +1,19 @@
+tasks:
+  npm run build:
+    - public/build/bundle.js
+    - build/bundle.js
+
+  pwd:
+    - public/build/bundle.css
+    - build/bundle.css
+
+  cat public/global.css: global.css
+
+  cat public/index.html: index.html
+
+hashing:
+  index.html:
+    - build/bundle.js
+    - build/bundle.css
+
+preview: true
