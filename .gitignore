@@ -3,3 +3,5 @@
 /.firebase/
 .DS_Store
 src/api-key.js
+.firebaserc
+firebase.json
