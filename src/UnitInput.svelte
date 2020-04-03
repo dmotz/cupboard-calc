@@ -1,9 +1,25 @@
 <script>
+  import {createEventDispatcher, onMount} from 'svelte'
+
   export let units
   export let value
   export let activeUnit
   export let onChange
   export let onChangeUnit
+  export let onEnterKey = () => null
+  export let bindInput = false
+
+  const dispatch = createEventDispatcher()
+
+  let input
+
+  onMount(() => {
+    if (bindInput) {
+      dispatch('element', {
+        input
+      })
+    }
+  })
 </script>
 
 <style>
@@ -36,7 +52,12 @@
 </style>
 
 <div>
-  <input type="number" {value} on:input={onChange} on:change={onChange} />
+  <input
+    type="number"
+    {value}
+    bind:this={input}
+    on:input={onChange}
+    on:change={onChange} />
   {#each units as unit}
     <span
       class="unit"
