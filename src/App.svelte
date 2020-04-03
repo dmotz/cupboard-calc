@@ -88,12 +88,6 @@
       JSON.stringify({rows, numPeople, targetEnergy, targetProtein})
     )
 
-  function getInputWidth(val) {
-    return `width:calc(${
-      val === undefined || val === '' ? 1 : val.toString().length
-    }ch + 3rem)`
-  }
-
   async function addRow() {
     const name = pendingName.trim()
     const quant = parseFloat(pendingQuantity)
