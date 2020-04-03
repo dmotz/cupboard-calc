@@ -71,7 +71,8 @@
 
   .scan-view {
     display: inline-block;
-    border: 1px solid #ccc;
+    height: 12rem;
+    background-color: #000;
     font-size: 0;
   }
 
