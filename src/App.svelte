@@ -200,6 +200,20 @@
     rows = rows.map((row, i) => (n === i ? {...row, quant} : row))
   }
 
+  function onChangeUnit(n, unit) {
+    rows = rows.map((row, i) =>
+      n === i
+        ? {
+            ...row,
+            unit,
+            quant: Math.round(
+              (row.quant * conversions[row.unit]) / conversions[unit]
+            )
+          }
+        : row
+    )
+  }
+
   function setFood(food) {
     pendingName = food.description.toLowerCase()
     pendingFoodData = getFoodDetails(food.fdcId)
