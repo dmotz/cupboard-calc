@@ -210,9 +210,7 @@
         ? {
             ...row,
             unit,
-            quant: Math.round(
-              (row.quant * conversions[row.unit]) / conversions[unit]
-            )
+            quant: (row.quant * conversions[row.unit]) / conversions[unit]
           }
         : row
     )

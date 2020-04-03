@@ -13,6 +13,8 @@
 
   let input
 
+  $: displayVal = Math.round(value)
+
   function checkEnter(e) {
     if (e.key === 'Enter') {
       onEnterKey()
@@ -60,7 +62,7 @@
 <div>
   <input
     type="number"
-    {value}
+    value={displayVal}
     bind:this={input}
     on:input={onChange}
     on:change={onChange}
