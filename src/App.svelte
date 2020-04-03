@@ -47,7 +47,9 @@
 
   $: totals = rows.reduce(
     (a, c) => {
-      nutrientMetrics.forEach(k => (a[k] += c[k]))
+      nutrientMetrics.forEach(
+        k => (a[k] += c[k] * (c.quant * conversions[c.unit]))
+      )
       return a
     },
     nutrientMetrics.reduce((a, c) => {
@@ -94,7 +96,7 @@
 
   async function addRow() {
     const name = pendingName.trim()
-    const quant = parseFloat(pendingQuantity) * conversions[activeUnit]
+    const quant = parseFloat(pendingQuantity)
     const data = await pendingFoodData
 
     if (!name || isNaN(quant) || !data) {
@@ -105,8 +107,8 @@
       ...rows,
       {
         name,
+        quant,
         unit: activeUnit,
-        grams: quant,
         foodId: data.fdcId,
         ...metrics.reduce((a, c) => {
           if (c !== 'grams') {
@@ -126,8 +128,8 @@
   function findNutrientData(query, grams, data) {
     const rx = new RegExp(query, 'i')
     return (
-      data.foodNutrients.find(record => rx.test(record.nutrient.name)).amount *
-      (grams / 100)
+      data.foodNutrients.find(record => rx.test(record.nutrient.name)).amount /
+      100
     )
   }
 
