@@ -533,7 +533,6 @@
         <td />
         <td>👇 add a food below</td>
         <td>-</td>
-        <td />
         <td>-</td>
         <td>-</td>
       </tr>
