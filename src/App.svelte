@@ -592,6 +592,8 @@
         onEnterKey={addRow} />
     </div>
 
+    <button on:click={addRow}>add</button>
+
     <div id="help-text">{helpText}</div>
   </div>
 
