@@ -485,7 +485,7 @@
 
           <li>
             Source code
-            <a href="https://github.com/dmotz/foodcalc">here</a>
+            <a href="https://github.com/dmotz/cupboard-calc">here</a>
           </li>
         </ul>
       {/if}
