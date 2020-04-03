@@ -499,9 +499,8 @@
         <td />
         <td>food</td>
         <td>amount</td>
-        <td />
         {#each nutrientMetrics as metric}
-          <td>{metric === 'energy' ? 'calories' : metric}</td>
+          <td class="quant-col">{metric === 'energy' ? 'calories' : metric}</td>
         {/each}
       </tr>
     </thead>
@@ -527,9 +526,8 @@
               onChange={onChangeQuant.bind(null, i)}
               onChangeUnit={onChangeUnit.bind(null, i)} />
           </td>
-          <td>➡</td>
           {#each nutrientMetrics as metric}
-            <td>
+            <td class="quant-col">
               {formatNum(row[metric] * row.quant * conversions[row.unit])}
               {metric !== 'energy' ? 'g' : ''}
             </td>
