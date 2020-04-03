@@ -74,12 +74,6 @@
     ])
   )
 
-  $: helpText = !pendingFoodData
-    ? '👈 type a food in the first field'
-    : isNaN(parseFloat(pendingQuantity))
-    ? '👈 now enter the amount'
-    : 'choose the unit and click add'
-
   $: _ =
     rows &&
     didMount &&
@@ -602,8 +596,6 @@
     </div>
 
     <button on:click={addRow} class:disabled={notReadyToAdd}>add</button>
-
-    <div id="help-text">{helpText}</div>
   </div>
 
   {#if !scannerEnabled}
