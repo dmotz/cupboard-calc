@@ -25,7 +25,7 @@
 
   let numPeople = 1
   let pendingName = ''
-  let pendingQuantity = ''
+  let pendingQuantity = 1
   let targetEnergy = defaults.energy
   let targetProtein = defaults.protein
   let rows = []
