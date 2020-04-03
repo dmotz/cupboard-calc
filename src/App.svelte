@@ -525,7 +525,10 @@
           </td>
           <td>➡</td>
           {#each nutrientMetrics as metric}
-            <td>{formatNum(row[metric])}</td>
+            <td>
+              {formatNum(row[metric] * row.quant * conversions[row.unit])}
+              {metric !== 'energy' ? 'g' : ''}
+            </td>
           {/each}
         </tr>
       {/each}
