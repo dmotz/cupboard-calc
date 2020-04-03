@@ -13,6 +13,12 @@
 
   let input
 
+  function checkEnter(e) {
+    if (e.key === 'Enter') {
+      onEnterKey()
+    }
+  }
+
   onMount(() => {
     if (bindInput) {
       dispatch('element', {
@@ -57,7 +63,8 @@
     {value}
     bind:this={input}
     on:input={onChange}
-    on:change={onChange} />
+    on:change={onChange}
+    on:keydown={checkEnter} />
   {#each units as unit}
     <span
       class="unit"
