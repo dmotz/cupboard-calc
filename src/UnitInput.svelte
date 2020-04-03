@@ -41,10 +41,8 @@
 
   .unit {
     cursor: pointer;
-    background-color: var(--input-bg);
     color: var(--dark-blue);
     margin-left: 0.4rem;
-    padding: 0.3rem;
     font-size: 1.2rem;
     padding-top: 0.2rem;
     display: inline-block;
@@ -56,6 +54,7 @@
 
   .unit.active {
     opacity: 1;
+    text-decoration: underline;
   }
 </style>
 
