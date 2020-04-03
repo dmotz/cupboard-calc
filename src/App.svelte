@@ -337,6 +337,7 @@
   button.disabled {
     opacity: 0.3;
     pointer-events: none;
+    cursor: not-allowed;
   }
 
   .quant-col {
