@@ -88,6 +88,9 @@
       JSON.stringify({rows, numPeople, targetEnergy, targetProtein})
     )
 
+  $: notReadyToAdd =
+    !pendingName.trim() || isNaN(pendingQuantity) || !pendingFoodData
+
   async function addRow() {
     const name = pendingName.trim()
     const quant = parseFloat(pendingQuantity)
@@ -329,6 +332,11 @@
   td a {
     color: #000;
     text-decoration-color: var(--dark-blue);
+  }
+
+  button.disabled {
+    opacity: 0.3;
+    pointer-events: none;
   }
 
   .quant-col {
@@ -592,7 +600,7 @@
         onEnterKey={addRow} />
     </div>
 
-    <button on:click={addRow}>add</button>
+    <button on:click={addRow} class:disabled={notReadyToAdd}>add</button>
 
     <div id="help-text">{helpText}</div>
   </div>
