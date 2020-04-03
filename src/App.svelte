@@ -133,12 +133,6 @@
     )
   }
 
-  function checkEnter(e) {
-    if (e.key === 'Enter') {
-      addRow()
-    }
-  }
-
   async function onFoodInputKey(e) {
     if (e.key === 'Enter') {
       setFood(suggestions[activeSuggestion])
