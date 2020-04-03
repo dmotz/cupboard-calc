@@ -4,6 +4,7 @@
   import {formatNum} from './utils'
   import BarcodeScanner from './BarcodeScanner.svelte'
   import OutputColumn from './OutputColumn.svelte'
+  import UnitInput from './UnitInput.svelte'
 
   const lsKey = 'ls'
   const metrics = ['grams', 'energy', 'protein']
@@ -514,10 +515,14 @@
               {row.name}
             </a>
           </td>
-          <td>{formatNum(row.grams / conversions[row.unit])} {row.unit}</td>
-          <!-- <td>
-            <input type="number" value={row.grams} />
-          </td> -->
+          <td>
+            <UnitInput
+              {units}
+              value={row.quant}
+              activeUnit={row.unit}
+              onChange={onChangeQuant.bind(null, i)}
+              onChangeUnit={onChangeUnit.bind(null, i)} />
+          </td>
           <td>➡</td>
           {#each nutrientMetrics as metric}
             <td>{formatNum(row[metric])}</td>
