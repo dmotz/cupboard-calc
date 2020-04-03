@@ -1,6 +1,11 @@
 {
   "name": "cupboard-calc",
   "version": "0.0.0",
+  "author": {
+    "name": "Dan Motzenbecker",
+    "email": "dan@oxism.com",
+    "url": "http://oxism.com"
+  },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^11.0.0",
     "@rollup/plugin-node-resolve": "^7.1.1",
