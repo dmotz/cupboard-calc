@@ -194,6 +194,16 @@
     rows = rows.map((row, i) => (n === i ? {...row, quant} : row))
   }
 
+  function onChangeNewQuant(e) {
+    const quant = parseFloat(e.target.value)
+
+    if (isNaN(quant) || quant < 0) {
+      return
+    }
+
+    pendingQuantity = quant
+  }
+
   function onChangeUnit(n, unit) {
     rows = rows.map((row, i) =>
       n === i
