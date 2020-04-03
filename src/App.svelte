@@ -190,6 +190,16 @@
     }
   }
 
+  function onChangeQuant(n, e) {
+    const quant = parseFloat(e.target.value)
+
+    if (isNaN(quant) || quant < 0) {
+      return
+    }
+
+    rows = rows.map((row, i) => (n === i ? {...row, quant} : row))
+  }
+
   function setFood(food) {
     pendingName = food.description.toLowerCase()
     pendingFoodData = getFoodDetails(food.fdcId)
