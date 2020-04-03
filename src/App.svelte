@@ -316,8 +316,6 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 22rem;
-    min-width: 10rem;
   }
 
   td:first-child {
@@ -326,15 +324,8 @@
     padding: 0;
   }
 
-  td:nth-child(2) {
-    width: 50%;
-  }
-
-  td:nth-child(4) {
-    width: 3rem;
-    padding: 0;
-    color: #aaa;
-    text-align: center;
+  td:nth-child(3) {
+    width: 16rem;
   }
 
   td:last-child {
@@ -344,6 +335,10 @@
   td a {
     color: #000;
     text-decoration-color: var(--dark-blue);
+  }
+
+  .quant-col {
+    width: 8rem;
   }
 
   .delete {
