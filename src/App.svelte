@@ -371,11 +371,6 @@
     margin-right: 1rem;
   }
 
-  #help-text {
-    font-size: 1.3rem;
-    color: var(--gray);
-  }
-
   .check {
     color: rgb(10, 196, 25);
     visibility: hidden;
