@@ -1,5 +1,9 @@
 # Cupboard Calculator
 
+## A handy tool for planning your pantry
+
+### Development
+
 Dev:
 
 ```
