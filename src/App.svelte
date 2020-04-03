@@ -78,7 +78,7 @@
     ? '👈 type a food in the first field'
     : isNaN(parseFloat(pendingQuantity))
     ? '👈 now enter the amount'
-    : 'press the enter key to add'
+    : 'choose the unit and click add'
 
   $: _ =
     rows &&
