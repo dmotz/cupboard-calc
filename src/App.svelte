@@ -120,7 +120,7 @@
     ]
 
     pendingName = ''
-    pendingQuantity = ''
+    pendingQuantity = 1
     pendingFoodData = null
     foodNameInput.focus()
   }
