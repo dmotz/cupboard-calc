@@ -1,4 +1,4 @@
-# Cupboard Calculator
+# [Cupboard Calculator](https://oxism.com/cupboard-calc/)
 
 ## A handy tool for planning your pantry
 
