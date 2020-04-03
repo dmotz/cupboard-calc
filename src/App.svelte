@@ -347,8 +347,8 @@
   }
 
   #input-row {
-    border: none;
     display: flex;
+    align-items: center;
     margin-top: 2rem;
     padding-left: 2.5rem;
   }
@@ -356,8 +356,16 @@
   #input-row > div {
     display: flex;
     align-items: center;
-    margin-right: 2rem;
+    margin-right: 1rem;
     position: relative;
+  }
+
+  #input-row > div:nth-child(2) {
+    margin-right: 2rem;
+  }
+
+  #input-row button {
+    margin-right: 1rem;
   }
 
   #help-text {
