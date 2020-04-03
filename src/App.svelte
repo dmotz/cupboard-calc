@@ -589,22 +589,15 @@
     </div>
 
     <div>
-      <input
-        type="number"
-        placeholder="0"
-        bind:value={pendingQuantity}
-        bind:this={quantityInput}
-        on:keydown={checkEnter}
-        class="amount-input"
-        style={getInputWidth(pendingQuantity)} />
-      {#each units as unit}
-        <span
-          class="unit"
-          class:active={unit === activeUnit}
-          on:click={setActiveUnit.bind(null, unit)}>
-          {unit}
-        </span>
-      {/each}
+      <UnitInput
+        {units}
+        value={pendingQuantity}
+        {activeUnit}
+        onChange={onChangeNewQuant}
+        onChangeUnit={setActiveUnit}
+        bindInput={true}
+        on:element={msg => (quantityInput = msg.detail.input)}
+        onEnterKey={addRow} />
     </div>
 
     <div id="help-text">{helpText}</div>
