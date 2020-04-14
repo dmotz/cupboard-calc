@@ -6,7 +6,7 @@
   import OutputColumn from './OutputColumn.svelte'
   import UnitInput from './UnitInput.svelte'
 
-  const lsKey = 'ls'
+  const lsKey = 'cupboard-calc'
   const metrics = ['grams', 'energy', 'protein']
   const nutrientMetrics = metrics.slice(1)
   const searchThrottleMs = 500
