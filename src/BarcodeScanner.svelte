@@ -37,7 +37,7 @@
           readers: ['upc_reader']
         }
       },
-      function(err) {
+      err => {
         if (err) {
           console.log(err)
           return
