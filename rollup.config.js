@@ -42,7 +42,12 @@ export default {
     commonjs(),
     dev && !nollup && serve(),
     useLiveReload && livereload('public'),
-    production && terser(),
+    production &&
+      terser({
+        output: {
+          comments: false
+        }
+      }),
     hot &&
       autoCreate({
         include: 'src/**/*',
