@@ -425,6 +425,8 @@
     line-height: 2;
     min-height: 6rem;
     position: absolute;
+    background-color: #fff;
+    padding-left: 22px;
     top: 0;
     right: 0;
   }
