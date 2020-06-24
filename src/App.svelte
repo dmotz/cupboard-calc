@@ -487,7 +487,9 @@
 
           <li>
             Source code
-            <a href="https://github.com/dmotz/cupboard-calc">here</a>
+            <a href="https://github.com/dmotz/cupboard-calc" target="_blank">
+              here
+            </a>
           </li>
         </ul>
       {/if}
