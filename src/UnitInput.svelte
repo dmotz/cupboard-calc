@@ -62,6 +62,7 @@
   <input
     type="number"
     value={displayVal}
+    min="0"
     bind:this={input}
     on:input={onChange}
     on:change={onChange}
