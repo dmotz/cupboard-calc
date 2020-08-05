@@ -125,8 +125,7 @@
   }
 
   async function onFoodInputKey(e) {
-    if (e.key === 'Enter') {
-      setFood(suggestions[activeSuggestion])
+    if (!suggestions.length) {
       return
     }
 
