@@ -129,6 +129,13 @@
       return
     }
 
+    const isTab = e.key === 'Tab'
+
+    if (e.key === 'Enter' || isTab) {
+      setFood(suggestions[activeSuggestion], isTab)
+      return true
+    }
+
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
       e.preventDefault()
       activeSuggestion += e.key === 'ArrowDown' ? 1 : -1
@@ -206,11 +213,11 @@
     )
   }
 
-  function setFood(food) {
+  function setFood(food, fromTab) {
     pendingName = food.description.toLowerCase()
     pendingFoodData = getFoodDetails(food.fdcId)
     suggestions = []
-    if (quantityInput) {
+    if (quantityInput && !fromTab) {
       quantityInput.focus()
     }
   }
